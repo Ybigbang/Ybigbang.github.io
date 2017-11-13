@@ -12,6 +12,13 @@
 
 
 
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
 
 
 
@@ -79,7 +86,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="严如玉">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://ybingbang.github.io/index.html">
 <meta property="og:site_name" content="严如玉">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -93,7 +100,7 @@
     root: '/',
     scheme: 'Gemini',
     version: '5.1.3',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -113,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://ybingbang.github.io/"/>
 
 
 
@@ -138,10 +145,10 @@
     
   
 
-  <div class="container sidebar-position-right 
+  <div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
-
+<a href="https://github.com/Ybigbang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
@@ -295,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/test-my-site/">
+    <link itemprop="mainEntityOfPage" href="http://ybingbang.github.io/2017/11/13/浅谈-Spring-Cloud/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -314,7 +321,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/11/12/test-my-site/" itemprop="url">严海林的第一篇博客</a></h1>
+                <a class="post-title-link" href="/2017/11/13/浅谈-Spring-Cloud/" itemprop="url">浅谈 Spring Cloud</a></h1>
         
 
         <div class="post-meta">
@@ -326,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T12:32:55+08:00">
-                2017-11-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-13T22:16:30+08:00">
+                2017-11-13
               </time>
             
 
@@ -367,9 +374,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/11/12/test-my-site/#comments" itemprop="discussionUrl">
+                <a href="/2017/11/13/浅谈-Spring-Cloud/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/11/12/test-my-site/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/11/13/浅谈-Spring-Cloud/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -391,7 +398,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  676
                 </span>
               
 
@@ -407,7 +414,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -430,7 +437,67 @@
       
         
           
-            
+            <h3 id="spring-cloud-简介"><a href="#spring-cloud-简介" class="headerlink" title="spring cloud 简介"></a>spring cloud 简介</h3><p>  Spring Cloud为开发者们提供了快速构建分布式系统中一些常见模式的工具（例如：配置管理、服务发现、断路器、智能路由、微代理、控制总线、一次性token、全局锁、决策者竞选、分布式会话、集群状态等等）。分布式系统的协作产生了诸多标准模式，在Spring Cloud的帮助下，开发者能够快速地构建起实现了这些模式的服务与应用。它们在任何分布式环境中都能运行良好，包括在开发者自己的笔记本电脑、裸机数据中心以及像Cloud Foundry这样的托管平台。</p>
+<p><img src="/2017/11/13/浅谈-Spring-Cloud/springcloud.png" alt="springcloud"></p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>Spring Cloud专注于为典型用例和可扩展机制提供良好的开箱即用体验。</p>
+<ul>
+<li>分布式/版本化配置</li>
+<li>服务注册与发现</li>
+<li>路由</li>
+<li>Service-to-service调用</li>
+<li>负载均衡</li>
+<li>断路器</li>
+<li>全局锁</li>
+<li>决策者竞选与集群状态</li>
+<li>分布式消息传递</li>
+</ul>
+<h3 id="基础组件"><a href="#基础组件" class="headerlink" title="基础组件"></a>基础组件</h3><h4 id="Spring-Cloud-Eureka"><a href="#Spring-Cloud-Eureka" class="headerlink" title="Spring Cloud Eureka"></a>Spring Cloud Eureka</h4><p><img src="/2017/11/13/浅谈-Spring-Cloud/eureka.jpg" alt="eureka"></p>
+<center>eureka图</center>
+
+<hr>
+<p><img src="/2017/11/13/浅谈-Spring-Cloud/eureka-service.jpg" alt="eureka-service"></p>
+<center>服务注册与调用</center>
+
+<hr>
+<p><img src="/2017/11/13/浅谈-Spring-Cloud/eureka1.png" alt="eureka1"></p>
+<center>eureka集群高可用</center>
+
+<p>服务中心，云端服务发现，一个基于 REST 的服务，用于定位服务，以实现云端中间层服务发现和故障转移。这个可是springcloud最牛鼻的小弟，服务中心，任何小弟需要其它小弟支持什么都需要从这里来拿，同样的你有什么独门武功的都赶紧过报道，方便以后其它小弟来调用；它的好处是你不需要直接找各种什么小弟支持，只需要到服务中心来领取，也不需要知道提供支持的其它小弟在哪里，还是几个小弟来支持的，反正拿来用就行，服务中心来保证稳定性和质量。</p>
+<h4 id="Spring-Cloud-Ribbon"><a href="#Spring-Cloud-Ribbon" class="headerlink" title="Spring Cloud Ribbon"></a>Spring Cloud Ribbon</h4><p><img src="/2017/11/13/浅谈-Spring-Cloud/ribbion.png" alt="ribbion"></p>
+<center>ribbon 图标</center>
+
+<hr>
+<p><img src="/2017/11/13/浅谈-Spring-Cloud/ribbon1.png" alt="ribbon1"></p>
+<center>spring cloud ribbon</center>
+
+<p>Ribbon，主要提供客户侧的软件负载均衡算法。</p>
+<p>Ribbon客户端组件提供一系列完善的配置选项，比如连接超时、重试、重试算法等。Ribbon内置可插拔、可定制的负载均衡组件。下面是用到的一些负载均衡策略：</p>
+<ul>
+<li>简单轮询负载均衡</li>
+<li>加权响应时间负载均衡</li>
+<li>区域感知轮询负载均衡</li>
+<li>随机负载均衡</li>
+</ul>
+<p>Ribbon中还包括以下功能:</p>
+<ul>
+<li><p>易于与服务发现组件（比如Netflix的Eureka）集成</p>
+</li>
+<li><p>使用Archaius完成运行时配置</p>
+</li>
+<li><p>使用JMX暴露运维指标，使用Servo发布</p>
+</li>
+<li><p>多种可插拔的序列化选择</p>
+</li>
+<li><p>异步和批处理操作（即将推出）</p>
+</li>
+<li><p>自动SLA框架（即将推出）</p>
+</li>
+<li><p>系统管理/指标控制台（即将推出)</p>
+<p>​</p>
+<p>​</p>
+</li>
+</ul>
+
           
         
       
@@ -549,6 +616,20 @@
 
           <div class="links-of-author motion-element">
             
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Ybigbang" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yanhlemail@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
           </div>
 
           
@@ -628,6 +709,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     

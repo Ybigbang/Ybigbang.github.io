@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[严海林的第一篇博客]]></title>
-    <url>%2F2017%2F11%2F12%2Ftest-my-site%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[浅谈 Spring Cloud]]></title>
+    <url>%2F2017%2F11%2F13%2F%E6%B5%85%E8%B0%88-Spring-Cloud%2F</url>
+    <content type="text"><![CDATA[spring cloud 简介 Spring Cloud为开发者们提供了快速构建分布式系统中一些常见模式的工具（例如：配置管理、服务发现、断路器、智能路由、微代理、控制总线、一次性token、全局锁、决策者竞选、分布式会话、集群状态等等）。分布式系统的协作产生了诸多标准模式，在Spring Cloud的帮助下，开发者能够快速地构建起实现了这些模式的服务与应用。它们在任何分布式环境中都能运行良好，包括在开发者自己的笔记本电脑、裸机数据中心以及像Cloud Foundry这样的托管平台。 特性Spring Cloud专注于为典型用例和可扩展机制提供良好的开箱即用体验。 分布式/版本化配置 服务注册与发现 路由 Service-to-service调用 负载均衡 断路器 全局锁 决策者竞选与集群状态 分布式消息传递 基础组件Spring Cloud Eureka eureka图 服务注册与调用 eureka集群高可用 服务中心，云端服务发现，一个基于 REST 的服务，用于定位服务，以实现云端中间层服务发现和故障转移。这个可是springcloud最牛鼻的小弟，服务中心，任何小弟需要其它小弟支持什么都需要从这里来拿，同样的你有什么独门武功的都赶紧过报道，方便以后其它小弟来调用；它的好处是你不需要直接找各种什么小弟支持，只需要到服务中心来领取，也不需要知道提供支持的其它小弟在哪里，还是几个小弟来支持的，反正拿来用就行，服务中心来保证稳定性和质量。 Spring Cloud Ribbon ribbon 图标 spring cloud ribbon Ribbon，主要提供客户侧的软件负载均衡算法。 Ribbon客户端组件提供一系列完善的配置选项，比如连接超时、重试、重试算法等。Ribbon内置可插拔、可定制的负载均衡组件。下面是用到的一些负载均衡策略： 简单轮询负载均衡 加权响应时间负载均衡 区域感知轮询负载均衡 随机负载均衡 Ribbon中还包括以下功能: 易于与服务发现组件（比如Netflix的Eureka）集成 使用Archaius完成运行时配置 使用JMX暴露运维指标，使用Servo发布 多种可插拔的序列化选择 异步和批处理操作（即将推出） 自动SLA框架（即将推出） 系统管理/指标控制台（即将推出) ​ ​]]></content>
       <categories>
         <category>spring</category>
       </categories>
