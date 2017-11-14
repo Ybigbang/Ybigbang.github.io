@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="spring," />
+  <meta name="keywords" content="spring,rabbitmq," />
 
 
 
@@ -84,25 +84,26 @@
 
 
 
-<meta name="description" content="spring cloud 简介  Spring Cloud为开发者们提供了快速构建分布式系统中一些常见模式的工具（例如：配置管理、服务发现、断路器、智能路由、微代理、控制总线、一次性token、全局锁、决策者竞选、分布式会话、集群状态等等）。分布式系统的协作产生了诸多标准模式，在Spring Cloud的帮助下，开发者能够快速地构建起实现了这些模式的服务与应用。它们在任何分布式环境中都能运行良好，">
-<meta name="keywords" content="spring">
+<meta name="description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
+<meta name="keywords" content="spring,rabbitmq">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈 Spring Cloud">
-<meta property="og:url" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/index.html">
+<meta property="og:title" content="spring-cloud-stream-rabbitmq">
+<meta property="og:url" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/index.html">
 <meta property="og:site_name" content="严如玉">
-<meta property="og:description" content="spring cloud 简介  Spring Cloud为开发者们提供了快速构建分布式系统中一些常见模式的工具（例如：配置管理、服务发现、断路器、智能路由、微代理、控制总线、一次性token、全局锁、决策者竞选、分布式会话、集群状态等等）。分布式系统的协作产生了诸多标准模式，在Spring Cloud的帮助下，开发者能够快速地构建起实现了这些模式的服务与应用。它们在任何分布式环境中都能运行良好，">
+<meta property="og:description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/springcloud.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/eureka.jpg">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/eureka-service.jpg">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/eureka1.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/ribbion.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/ribbon1.png">
-<meta property="og:updated_time" content="2017-11-13T15:21:42.771Z">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片2.png">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片3.png">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片4.png">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片5.png">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片6.png">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片7.png">
+<meta property="og:updated_time" content="2017-11-14T12:11:24.658Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈 Spring Cloud">
-<meta name="twitter:description" content="spring cloud 简介  Spring Cloud为开发者们提供了快速构建分布式系统中一些常见模式的工具（例如：配置管理、服务发现、断路器、智能路由、微代理、控制总线、一次性token、全局锁、决策者竞选、分布式会话、集群状态等等）。分布式系统的协作产生了诸多标准模式，在Spring Cloud的帮助下，开发者能够快速地构建起实现了这些模式的服务与应用。它们在任何分布式环境中都能运行良好，">
-<meta name="twitter:image" content="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/springcloud.png">
+<meta name="twitter:title" content="spring-cloud-stream-rabbitmq">
+<meta name="twitter:description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
+<meta name="twitter:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png">
 
 
 
@@ -132,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/"/>
+  <link rel="canonical" href="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/"/>
 
 
 
 
 
-  <title>浅谈 Spring Cloud | 严如玉</title>
+  <title>spring-cloud-stream-rabbitmq | 严如玉</title>
   
 
 
@@ -313,7 +314,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/">
+    <link itemprop="mainEntityOfPage" href="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -330,7 +331,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">浅谈 Spring Cloud</h1>
+          <h1 class="post-title" itemprop="name headline">spring-cloud-stream-rabbitmq</h1>
         
 
         <div class="post-meta">
@@ -342,8 +343,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-13T22:16:30+08:00">
-                2017-11-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-14T19:29:27+08:00">
+                2017-11-14
               </time>
             
 
@@ -365,8 +366,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
+                  <a href="/categories/消息队列/" itemprop="url" rel="index">
+                    <span itemprop="name">消息队列</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/消息队列/rabbitMq/" itemprop="url" rel="index">
+                    <span itemprop="name">rabbitMq</span>
                   </a>
                 </span>
 
@@ -383,9 +395,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/11/13/浅谈-Spring-Cloud/#comments" itemprop="discussionUrl">
+                <a href="/2017/11/14/spring-cloud-stream-rabbitmq/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/11/13/浅谈-Spring-Cloud/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/11/14/spring-cloud-stream-rabbitmq/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -412,7 +424,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  676
+                  2,243
                 </span>
               
 
@@ -428,7 +440,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  9
                 </span>
               
             </div>
@@ -449,66 +461,74 @@
       
 
       
-        <h3 id="spring-cloud-简介"><a href="#spring-cloud-简介" class="headerlink" title="spring cloud 简介"></a>spring cloud 简介</h3><p>  Spring Cloud为开发者们提供了快速构建分布式系统中一些常见模式的工具（例如：配置管理、服务发现、断路器、智能路由、微代理、控制总线、一次性token、全局锁、决策者竞选、分布式会话、集群状态等等）。分布式系统的协作产生了诸多标准模式，在Spring Cloud的帮助下，开发者能够快速地构建起实现了这些模式的服务与应用。它们在任何分布式环境中都能运行良好，包括在开发者自己的笔记本电脑、裸机数据中心以及像Cloud Foundry这样的托管平台。</p>
-<p><img src="/2017/11/13/浅谈-Spring-Cloud/springcloud.png" alt="springcloud"></p>
-<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>Spring Cloud专注于为典型用例和可扩展机制提供良好的开箱即用体验。</p>
-<ul>
-<li>分布式/版本化配置</li>
-<li>服务注册与发现</li>
-<li>路由</li>
-<li>Service-to-service调用</li>
-<li>负载均衡</li>
-<li>断路器</li>
-<li>全局锁</li>
-<li>决策者竞选与集群状态</li>
-<li>分布式消息传递</li>
-</ul>
-<h3 id="基础组件"><a href="#基础组件" class="headerlink" title="基础组件"></a>基础组件</h3><h4 id="Spring-Cloud-Eureka"><a href="#Spring-Cloud-Eureka" class="headerlink" title="Spring Cloud Eureka"></a>Spring Cloud Eureka</h4><p><img src="/2017/11/13/浅谈-Spring-Cloud/eureka.jpg" alt="eureka"></p>
-<center>eureka图</center>
-
+        <h3 id="Spring-cloud-stream-使用-rabbitmq"><a href="#Spring-cloud-stream-使用-rabbitmq" class="headerlink" title="Spring cloud stream 使用 rabbitmq"></a><center>Spring cloud stream 使用 rabbitmq</center></h3><hr>
+<p>在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单</p>
+<p>spring cloud stream 整合rabbitmq</p>
+<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><hr>
+<p>Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务的框架。简单来说，通过SCS我们可以快速地在微服务之间传递异步消息，这对于一些刚起步时需求简单的消息应用是很方便的。</p>
 <hr>
-<p><img src="/2017/11/13/浅谈-Spring-Cloud/eureka-service.jpg" alt="eureka-service"></p>
-<center>服务注册与调用</center>
-
+<h4 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h4><p>尽管很方便，但必要的准备工作还是要做的。SCS本身并不提供消息服务器，因此我们还是要安装像RabbitMQ或Kafka这样的消息服务器，本文会使用RabbitMQ来做讲解，具体如何安装Erlang和RabbitMQ这里不再赘述。安装好以后可以暂时不对RabbitMQ做配置。但要记得运行rabbitmq-plugins enable rabbitmq_management来激活管理平台以方便后续使用 。</p>
 <hr>
-<p><img src="/2017/11/13/浅谈-Spring-Cloud/eureka1.png" alt="eureka1"></p>
-<center>eureka集群高可用</center>
-
-<p>服务中心，云端服务发现，一个基于 REST 的服务，用于定位服务，以实现云端中间层服务发现和故障转移。这个可是springcloud最牛鼻的小弟，服务中心，任何小弟需要其它小弟支持什么都需要从这里来拿，同样的你有什么独门武功的都赶紧过报道，方便以后其它小弟来调用；它的好处是你不需要直接找各种什么小弟支持，只需要到服务中心来领取，也不需要知道提供支持的其它小弟在哪里，还是几个小弟来支持的，反正拿来用就行，服务中心来保证稳定性和质量。</p>
-<h4 id="Spring-Cloud-Ribbon"><a href="#Spring-Cloud-Ribbon" class="headerlink" title="Spring Cloud Ribbon"></a>Spring Cloud Ribbon</h4><p><img src="/2017/11/13/浅谈-Spring-Cloud/ribbion.png" alt="ribbion"></p>
-<center>ribbon 图标</center>
-
-<hr>
-<p><img src="/2017/11/13/浅谈-Spring-Cloud/ribbon1.png" alt="ribbon1"></p>
-<center>spring cloud ribbon</center>
-
-<p>Ribbon，主要提供客户侧的软件负载均衡算法。</p>
-<p>Ribbon客户端组件提供一系列完善的配置选项，比如连接超时、重试、重试算法等。Ribbon内置可插拔、可定制的负载均衡组件。下面是用到的一些负载均衡策略：</p>
-<ul>
-<li>简单轮询负载均衡</li>
-<li>加权响应时间负载均衡</li>
-<li>区域感知轮询负载均衡</li>
-<li>随机负载均衡</li>
-</ul>
-<p>Ribbon中还包括以下功能:</p>
-<ul>
-<li><p>易于与服务发现组件（比如Netflix的Eureka）集成</p>
-</li>
-<li><p>使用Archaius完成运行时配置</p>
-</li>
-<li><p>使用JMX暴露运维指标，使用Servo发布</p>
-</li>
-<li><p>多种可插拔的序列化选择</p>
-</li>
-<li><p>异步和批处理操作（即将推出）</p>
-</li>
-<li><p>自动SLA框架（即将推出）</p>
-</li>
-<li><p>系统管理/指标控制台（即将推出)</p>
-<p>​</p>
-<p>​</p>
-</li>
-</ul>
+<h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><p>创建一个rabbitmq-producer微服务，默认端口8080</p>
+<p>创建一个接口作为通道，举例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//生产者</span></span><br><span class="line"><span class="comment">//创建一个rabbitmq-producer微服务，默认端口8080；</span></span><br><span class="line"><span class="comment">//创建一个接口作为通道，举例：</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyChannel</span> </span>&#123;</span><br><span class="line">    String OUTPUT = <span class="string">"test"</span>;</span><br><span class="line">    <span class="meta">@Output</span>(OUTPUT)</span><br><span class="line">    <span class="function">MessageChannel <span class="title">output</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@Output注解代表这是一个输出通道，而通道名就是我们定义的test，一个接口中可以定义多个输入和输出通道。实际上SCS本身提供了三个预定义接口通道，即Source.class单向输出通道，Sink.class单向输入通道，以及继承了它们两个的Processor.class，你可以在源码org.springframework.cloud.stream.messaging包中找到它们。但它们都只是简单示例，真正开发时我们肯定还是要自定义接口作为通道；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建用于发送消息的接口（或直接在启动类中编写）：</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@EnableBinding</span>(MyChannel.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SendController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MyChannel sender;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/send"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">send</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sender.output().send(MessageBuilder.withPayload(<span class="string">"Hello World"</span>).build());</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"fail"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，@EnableBinding注解是必须要加的（即使你只使用JUnit测试），但并不是必须添加在启动类上，其实你可以把它放在任何一个Spring能够扫描到的类。但为了方便查找，还是推荐放在启动类或者消息类上。</p>
+<p>生产者至此告一段落，接下来我们看一下消费者。</p>
+<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个consumer微服务，为防止与生产者冲突，端口号设为8081；</span></span><br><span class="line"><span class="comment">//和生产者一样，创建一个接口作为通道，举例：</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyChannel</span> </span>&#123;</span><br><span class="line">    String INPUT = <span class="string">"test"</span>;</span><br><span class="line">    <span class="meta">@Input</span>(INPUT)</span><br><span class="line">    <span class="function">SubscribableChannel <span class="title">input</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@Input注解代表这是一个输入通道，通道名需要与生产者对应才能接收消息，因此我们也定义为test；</p>
+<p>创建用于接收消息的类（或直接在启动类中编写）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line">    <span class="meta">@StreamListener</span>(MyChannel.INPUT)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Message&lt;String&gt; message)</span></span>&#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">        System.out.println(message.getPayload());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@StreamListener注解用于监听通道，由于我们在生产者发送的是一个”Hello World”字符串，因此在这里我们用string来接收它，注意Message用的是org.springframework.messaging.Message；与生产者一样，在启动类上添加@EnableBinding(MyChannel.class)。</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><hr>
+<p>首先启动消费者微服务，如果你激活了RabbitMQ管理平台，那么此时就可以在上面看到test通道的相关信息了，包括Exchange和Queue</p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png" alt="图片1"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片2.png" alt="图片2"></p>
+<p>访问消息提供者的接口 <a href="http://localhost:8082/send在监听方会有消息" target="_blank" rel="external">http://localhost:8082/send在监听方会有消息</a></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片3.png" alt="图片3"></p>
+<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><hr>
+<p>至此我们就完成了简单的消息发送与接收服务，是不是感觉很快就能起飞了呢？手动配置在开头我提到可以暂时不对RabbitMQ做配置，这是为了我们可以快速开发调试。但现实中我们不可能不去修改RabbitMQ的配置（哪怕只是改改密码，毕竟guest相当于裸奔），那么如何让SCS去匹配修改过的配置呢？单就YAML配置来说，有两种方式（使用@Configuration类做配置的朋友请自行对照）：</p>
+<p>直接配置spring.rabbitmq，比如我使用另外一个用户连接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  rabbitmq:</span><br><span class="line">    username: “用户名”</span><br><span class="line">    password: ”密码“</span><br><span class="line">    virtual-host: /test</span><br></pre></td></tr></table></figure>
+<p>使用spring.cloud.stream.binders和spring.cloud.stream.bindings组合配置，同样是上面的情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">        test:</span><br><span class="line">          binder: rabbit</span><br><span class="line">      binders:</span><br><span class="line">        rabbit:</span><br><span class="line">          type: rabbit</span><br><span class="line">          environment:</span><br><span class="line">            spring:</span><br><span class="line">              rabbitmq:</span><br><span class="line">                username: ”用户名“</span><br><span class="line">                password: ”密码“</span><br><span class="line">                virtual-host: /test</span><br></pre></td></tr></table></figure>
+<p>乍一看感觉好麻烦呀，而且environment下面的配置不就是上面spring.rabbitmq的配置吗？</p>
+<p>实际上这种写法是有它的好处的，首先我们注意到，binders里面可以配置不同环境的binder，而通过bindings我们可以把channel和binder绑定起来。</p>
+<p>假设我这个微服务现在要连两个RabbitMQ，那么我们就可以这样配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">        test1:</span><br><span class="line">          binder: rabbit1</span><br><span class="line">        test2:</span><br><span class="line">          binder: rabbit2</span><br><span class="line">      binders:</span><br><span class="line">        rabbit1:</span><br><span class="line">          type: rabbit</span><br><span class="line">          environment:</span><br><span class="line">            spring:</span><br><span class="line">              rabbitmq:</span><br><span class="line">                host: <span class="number">10.1</span>.27.14</span><br><span class="line">                port: <span class="number">5672</span></span><br><span class="line">                username: </span><br><span class="line">                password: </span><br><span class="line">                virtual-host: /test1</span><br><span class="line">        rabbit2:</span><br><span class="line">          type: rabbit</span><br><span class="line">          environment:</span><br><span class="line">            spring:</span><br><span class="line">              rabbitmq:</span><br><span class="line">                host: <span class="number">10.1</span>.27.14</span><br><span class="line">                port: <span class="number">5673</span></span><br><span class="line">                username: </span><br><span class="line">                password: </span><br><span class="line">                virtual-host: /test2</span><br></pre></td></tr></table></figure>
+<p>注：spring.cloud.stream.bindings.<channelname>里面有许多有用的配置，比如destination、group等等。”</channelname></p>
+<h4 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h4><p>好了简单的消息发送与接收已经实现了</p>
+<p>如何像消息队列传递一个对象呢？</p>
+<p>上一节中我们发送的消息是一个字符串，那如果我想发送POJO怎么办呢？是直接发送和接收就可以了吗？下面我们可以试验一下：</p>
+<p>首先创建一个User POJO，然后修改生产者的send()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/send"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">send</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setId(<span class="string">"1"</span>);</span><br><span class="line">        user.setName(<span class="string">"yhl"</span>);</span><br><span class="line">        sender.output().send(MessageBuilder.withPayload(user).build());</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"fail"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改消费者sc-stream-consumer的receive()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@StreamListener</span>(MyChannel.INPUT)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Message&lt;User&gt; message)</span></span>&#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">        System.out.println(message.getPayload());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问send 结果</p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片4.png" alt="图片4"></p>
+<p>接收方接到了一个user对象</p>
+<p>如果你的User是分别在生产者和消费者中定义的，并且包路径不同，那么会报错反序列化失败。原因是SCS会默认将POJO转换成二进制发送，并且携带包路径等信息；</p>
+<p>如果生产者和消费者使用的User是同一定义，或分别定义但包路径相同，那么就不会报错。</p>
+<p>看起来略微有点不爽，那么有没有别的转换方式呢？</p>
+<p>有，而且官方还提供了很多：</p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片5.png" alt="图片5"></p>
+<p>下面我会举例用JSON字符串来传递POJO，其实只要在生产者中加上一条配置即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">      	test:</span><br><span class="line">          content-type: application/json</span><br></pre></td></tr></table></figure>
+<p>此时消费者sc-stream-consumer接收的消息实体实际上是字符串了，我们可以用Message<string>来测试一下：</string></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片6.png" alt="图片6"></p>
+<p>此时收到的就是json数据了</p>
+<p>既然接收的是JSON字符串了，那Spring怎么可能不提供自动反射呢XD，再次把消息实体换回User就行了。</p>
+<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>实际生产中，我们一般都会启动多个消费者实例来做负载均衡，既然是负载均衡，我们肯定希望一条消息在一组负载均衡实例中只被其中一个消费者接收。那么SCS是如何处理这种情况的呢？</p>
+<p>假设我们现在已经启动了生产者和消费者实例各一个，然后再修改消费者的端口为8082，再启动一个消费者实例。</p>
+<p>随后发送消息测试，我们会发现两个消费者实例都接收到了消息：</p>
+<p>这显然不是我们希望的，那么现在就来分析一下为什么会出现这种情况。</p>
+<p>关键点在headers中的amqp_consumerQueue这个属性上，我们看到8081和8082的amqp_consumerQueue前面都是test.anonymous，但后面却是不一样的。这其实表示他们被分到了不同的匿名组（即group），而同一条消息会被test中的每个组都接收到。这个也很好理解，我们把group比喻成现实中的公司各部门，现在我要发一个通知，我会发给所有的部门，但同一部门中只要有一个人收到了，我就认为这个部门收到了通知。</p>
+<p>所以只要把要负载均衡的实例分在同一个group下就好了，我们给消费者添加如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">        test:</span><br><span class="line">          group: yhl</span><br></pre></td></tr></table></figure>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片7.png" alt="图片7"></p>
+<p>有一个test.yhl 队列这时调用发送者会发现两个消费者循环接受消息。</p>
 
       
     </div>
@@ -529,7 +549,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/" title="浅谈 Spring Cloud">http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/</a>
+    <a href="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/" title="spring-cloud-stream-rabbitmq">http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -546,6 +566,8 @@
           
             <a href="/tags/spring/" rel="tag"># spring</a>
           
+            <a href="/tags/rabbitmq/" rel="tag"># rabbitmq</a>
+          
         </div>
       
 
@@ -557,15 +579,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/11/14/SpringCloudStream/" rel="next" title="SpringCloudStream">
+                <i class="fa fa-chevron-left"></i> SpringCloudStream
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/14/SpringCloudStream/" rel="prev" title="SpringCloudStream">
-                SpringCloudStream <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -721,7 +743,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-简介"><span class="nav-number">1.</span> <span class="nav-text">spring cloud 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性"><span class="nav-number">2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础组件"><span class="nav-number">3.</span> <span class="nav-text">基础组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Cloud-Eureka"><span class="nav-number">3.1.</span> <span class="nav-text">Spring Cloud Eureka</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Cloud-Ribbon"><span class="nav-number">3.2.</span> <span class="nav-text">Spring Cloud Ribbon</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-cloud-stream-使用-rabbitmq"><span class="nav-number">1.</span> <span class="nav-text">Spring cloud stream 使用 rabbitmq</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#入门"><span class="nav-number">1.2.</span> <span class="nav-text">入门</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者"><span class="nav-number">1.3.</span> <span class="nav-text">生产者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费者"><span class="nav-number">1.4.</span> <span class="nav-text">消费者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">1.5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改配置"><span class="nav-number">1.6.</span> <span class="nav-text">修改配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进阶"><span class="nav-number">1.7.</span> <span class="nav-text">进阶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负载均衡"><span class="nav-number">1.8.</span> <span class="nav-text">负载均衡</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -907,9 +929,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://ybigbang.github.io/2017/11/13/浅谈-Spring-Cloud/';
-          this.page.identifier = '2017/11/13/浅谈-Spring-Cloud/';
-          this.page.title = '浅谈 Spring Cloud';
+          this.page.url = 'http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/';
+          this.page.identifier = '2017/11/14/spring-cloud-stream-rabbitmq/';
+          this.page.title = 'spring-cloud-stream-rabbitmq';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://.disqus.com/embed.js';
