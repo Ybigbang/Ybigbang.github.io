@@ -434,7 +434,7 @@
         
           
           docker 构建 redis 集群由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。
-redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel，高可
+redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，同时有多个master，数据分片部署在各个master上。基于我们的需求和redis本身技术的成熟度
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -626,7 +626,9 @@ redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel
           
           Spring cloud stream 使用 rabbitmq
 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单
-spring cloud stream 整合rabb
+spring cloud stream 整合rabbitmq
+概述
+Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务的框架。简单来说，通过SCS我们可以快速地在微服务之间传递异步消息，这对于一些刚起步时需求简单的消息
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -785,7 +787,8 @@ spring cloud stream 整合rabb
           
           Spring cloud stream 翻译 （还没翻译完）
 原文地址：
-https://docs.spring.io/spring-cloud-stream/docs/current-SNAPSHOT/reference/htmlsingle/#_introducing_spring_cloud_
+https://docs.spring.io/spring-cloud-stream/docs/current-SNAPSHOT/reference/htmlsingle/#_introducing_spring_cloud_stream
+1.简介Spring Cloud Stream是创建消息驱动微服务应用的框架。Spring Cloud Stream是基于spring boot创建，用来建立单独的工业级spring应用
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -964,7 +967,7 @@ https://docs.spring.io/spring-cloud-stream/docs/current-SNAPSHOT/reference/htmls
       
         
           
-          背景2008年以后，国内互联网行业飞速发展，我们对软件系统的需求已经不再是过去”能用就行”这种很low的档次了，像抢红包、双十一这样的活动不断逼迫我们去突破软件系统的性能上限，传统的IT企业”能用就行”的开发思想已经不能满足互联网高并发、大流量的性能要求。系统架构走向分布式已经是服务器开发领域解决该
+          背景2008年以后，国内互联网行业飞速发展，我们对软件系统的需求已经不再是过去”能用就行”这种很low的档次了，像抢红包、双十一这样的活动不断逼迫我们去突破软件系统的性能上限，传统的IT企业”能用就行”的开发思想已经不能满足互联网高并发、大流量的性能要求。系统架构走向分布式已经是服务器开发领域解决该问题唯一的出路，然而分布式系统由于天生的复杂度，并不像开发单体应用一样把框架一堆就能搞定，因此各大互联网公司都在投入技术力量研发自己的基础设施。这里面比较有名的如阿里的开源项目dubbo, Netfl
           ...
           <!--noindex-->
           <div class="post-button text-center">
