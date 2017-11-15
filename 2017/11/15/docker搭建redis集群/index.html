@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker,redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="docker 构建 redis 集群由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。 redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，">
+<meta name="keywords" content="docker,redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker搭建redis集群">
+<meta property="og:url" content="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/index.html">
+<meta property="og:site_name" content="颜如玉">
+<meta property="og:description" content="docker 构建 redis 集群由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。 redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/docker-redis.png">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/E:/myBlogs/blog/source/_posts/docker搭建redis集群/redis启动.PNG">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/redis启动.PNG">
+<meta property="og:updated_time" content="2017-11-15T13:45:01.672Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker搭建redis集群">
+<meta name="twitter:description" content="docker 构建 redis 集群由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。 redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，">
+<meta name="twitter:image" content="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/docker-redis.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '严海林'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/"/>
+
+
+
+
+
+  <title>docker搭建redis集群 | 颜如玉</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Ybigbang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">颜如玉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每天爬一坑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="严海林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myTag.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="颜如玉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">docker搭建redis集群</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T21:45:01+08:00">
+                2017-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/15/docker搭建redis集群/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/11/15/docker搭建redis集群/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,617
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="docker-构建-redis-集群"><a href="#docker-构建-redis-集群" class="headerlink" title="docker 构建 redis 集群"></a>docker 构建 redis 集群</h3><p>由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。</p>
+<h3 id="redis-集群分类"><a href="#redis-集群分类" class="headerlink" title="redis 集群分类:"></a><img src="/2017/11/15/docker搭建redis集群/docker-redis.png" alt="docker-redis">redis 集群分类:</h3><p>大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，同时有多个master，数据分片部署在各个master上。基于我们的需求和redis本身技术的成熟度，本次要搭建的是redis sentinel。</p>
+<p>关于它的介绍：</p>
+<p>Redis 的 Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下四个任务：</p>
+<ul>
+<li>不时地监控redis是否按照预期良好地运行    </li>
+<li>如果发现某个redis节点运行出现状况，能够通知另外一个进程(例如它的客户端);</li>
+<li>能够进行自动切换。当一个master节点不可用时，能够选举出master的多个slave(如果有超过一个slave                  的话)中的一个来作为新的master,其它的slave节点会将它所追随的master的地址改为被提升为master的slave的    新地址。</li>
+<li>哨兵为客户端提供服务发现，客户端链接哨兵，哨兵提供当前master的地址然后提供服务，如果出现切换，也就是master挂了，哨兵会提供客户端一个新地址。</li>
+</ul>
+<h3 id="制作镜像"><a href="#制作镜像" class="headerlink" title="制作镜像"></a>制作镜像</h3><p>整个集群可以分为一个master，N个slave，M个sentinel，本次以2个slave和3个sentinel为例：</p>
+<p><img src="/2017/11/15/docker搭建redis集群/E:/myBlogs\blog\source\_posts\docker搭建redis集群\redis启动.PNG" alt="67346963428966a1f5baea667f9ac2545e8b1631"></p>
+<p>增加<code>redis.conf</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##redis.conf</span></span><br><span class="line"><span class="comment">##redis-0,默认为master</span></span><br><span class="line"><span class="string">port</span> <span class="string">$redis_port</span></span><br><span class="line"><span class="comment">##授权密码，请各个配置保持一致</span></span><br><span class="line"><span class="comment">##暂且禁用指令重命名</span></span><br><span class="line"><span class="comment">##rename-command</span></span><br><span class="line"><span class="comment">##开启AOF，禁用snapshot</span></span><br><span class="line"><span class="string">appendonly</span> <span class="literal">yes</span></span><br><span class="line"><span class="comment">#slaveof redis-master $master_port #redis-master master主机域名</span></span><br><span class="line"><span class="string">slave-read-only</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<p>增加<code>sentinel.conf</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">port</span> <span class="string">$sentinel_port</span></span><br><span class="line"><span class="string">dir</span> <span class="string">"/tmp"</span></span><br><span class="line"><span class="string">sentinel</span> <span class="string">monitor</span> <span class="string">mymaster</span> <span class="string">redis-master</span> <span class="string">$master_port</span> <span class="number">2</span></span><br><span class="line"><span class="comment">##选项指定了在执行故障转移时， 最多可以有多少个从服务器同时对新的主服务器进行同步， 这个数字越小， 完成故障转移所需的时间就越长。</span></span><br><span class="line"><span class="string">sentinel</span> <span class="string">config-epoch</span> <span class="string">mymaster</span> <span class="number">1</span></span><br><span class="line"><span class="string">sentinel</span> <span class="string">leader-epoch</span> <span class="string">mymaster</span> <span class="number">1</span></span><br><span class="line"><span class="string">sentinel</span> <span class="string">current-epoch</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>增加启动脚本，根据入参判断启动master，slave，sentinel</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cd /data</span><br><span class="line">redis_role=$1</span><br><span class="line">echo $redis_role</span><br><span class="line">if [ $redis_role = "master" ] ; then</span><br><span class="line">    echo "master" </span><br><span class="line">    sed -i "s/\$redis_port/$redis_port/g" redis.conf</span><br><span class="line">    redis-server /data/redis.conf</span><br><span class="line">elif [ $redis_role = "slave" ] ; then   </span><br><span class="line">    echo "slave" </span><br><span class="line">    sed -i "s/\$redis_port/$redis_port/g" redis.conf</span><br><span class="line">    sed -i "s/#slaveof/slaveof/g" redis.conf</span><br><span class="line">    sed -i "s/\$master_port/$master_port/g" redis.conf</span><br><span class="line">    redis-server /data/redis.conf</span><br><span class="line">elif [ $redis_role = "sentinel" ] ; then </span><br><span class="line">    echo "sentinel" </span><br><span class="line">    sed -i "s/\$sentinel_port/$sentinel_port/g" sentinel.conf</span><br><span class="line">    sed -i "s/\$master_port/$master_port/g" sentinel.conf</span><br><span class="line">    redis-sentinel /data/sentinel.conf</span><br><span class="line">else </span><br><span class="line">    echo "unknow role!" </span><br><span class="line">fi     #ifend</span><br></pre></td></tr></table></figure>
+<p>其中<code>$redis_port</code>和<code>$master_port</code>,<code>$sentinel_port</code>都是取自环境变量，通过<code>Docker</code>启动时候传入。</p>
+<p>编写<code>Dockerfile</code></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> redis:<span class="number">3</span>-alpine</span><br><span class="line"><span class="keyword">MAINTAINER</span> yanhl &lt;yanhl&gt;</span><br><span class="line"><span class="keyword">COPY</span> redis.conf /data/redis.conf</span><br><span class="line">COPY sentinel.conf /data/sentinel.conf</span><br><span class="line">COPY start.sh /data/start.sh</span><br><span class="line">RUN chmod +x /data/start.sh</span><br><span class="line">RUN chown redis:redis /data/*</span><br><span class="line">ENTRYPOINT ["sh","/data/start.sh"] </span><br><span class="line">CMD ["master"]</span><br></pre></td></tr></table></figure>
+<p>选取<code>redis-alpine</code>镜像作为基础镜像，因为它非常小，只有9M，修改时区和把一些配置拷贝进去后，变更下权限和用户组，因为基础镜像是<code>redis</code>用户组。<code>ENTRYPOINT</code>和<code>CMD</code>组合，默认以<code>master</code>方式启动。<br><code>build</code>完成后，镜像只有15M。</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>采用<code>docker-compose</code>格式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">redis-master-host:</span></span><br><span class="line"><span class="attr">  environment:</span></span><br><span class="line"><span class="attr">    redis_port:</span> <span class="string">'16379'</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">io.rancher.container.pull_image:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  tty:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  image:</span> <span class="comment">#镜像id</span></span><br><span class="line"><span class="attr">  stdin_open:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  net:</span> <span class="string">host</span></span><br><span class="line"><span class="attr">redis-slaves:</span></span><br><span class="line"><span class="attr">  environment:</span></span><br><span class="line"><span class="attr">    master_port:</span> <span class="string">'16379'</span></span><br><span class="line"><span class="attr">    redis_port:</span> <span class="string">'16380'</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">io.rancher.scheduler.affinity:container_label_soft_ne:</span> <span class="string">name=slaves</span></span><br><span class="line">    <span class="string">io.rancher.container.pull_image:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">slaves</span></span><br><span class="line"><span class="attr">  tty:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  command:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">slave</span></span><br><span class="line"><span class="attr">  image:</span> <span class="comment">#镜像id</span></span><br><span class="line"><span class="attr">  stdin_open:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  net:</span> <span class="string">host</span></span><br><span class="line"><span class="attr">redis-sentinels:</span></span><br><span class="line"><span class="attr">  environment:</span></span><br><span class="line"><span class="attr">    master_port:</span> <span class="string">'16379'</span></span><br><span class="line"><span class="attr">    sentinel_port:</span> <span class="string">'16381'</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">io.rancher.container.pull_image:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">sentinels</span></span><br><span class="line">    <span class="string">io.rancher.scheduler.affinity:container_label_ne:</span> <span class="string">name=sentinels</span></span><br><span class="line"><span class="attr">  tty:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  command:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">sentinel</span></span><br><span class="line"><span class="attr">  image:</span> <span class="comment">#镜像id</span></span><br><span class="line"><span class="attr">  stdin_open:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  net:</span> <span class="string">host</span></span><br></pre></td></tr></table></figure>
+<p>首先启动master，传入端口16379，host模式，在启动slave，成为16379  master 的slave，并且设置调度策略为尽可能分散的方式，sentinels也类似。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>启动 redis集群：</p>
+<p><img src="/2017/11/15/docker搭建redis集群/redis启动.PNG" alt="redis启动"></p>
+<p>java访问<code>redis</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">// 保存字符串</span></span><br><span class="line">	        <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">				stringRedisTemplate.opsForValue().set(<span class="string">"a"</span> + i, <span class="string">"111"</span>);</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>此时停掉一台哨兵 可以正常存储</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis.clients.jedis.JedisSentinelPool    : Lost connection to Sentinel at <span class="number">192.168</span>.99.100:<span class="number">16383</span>. Sleeping <span class="number">5000</span>ms and retrying.</span><br></pre></td></tr></table></figure>
+<p>停掉所有哨兵</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invocation of init method failed; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: All sentinels down, cannot determine where is mymaster master is running...</span><br></pre></td></tr></table></figure>
+<p>停掉一台slave  其中一台哨兵日志</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">12</span>:<span class="number">41</span>:<span class="number">33.985</span> * +sentinel sentinel dd903d8391315dd23c23ff2f9c5c0a2f57e93ac6 <span class="number">192.168</span>.99.100 <span class="number">16384</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16379</span></span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">12</span>:<span class="number">41</span>:<span class="number">41.954</span> * +slave slave <span class="number">192.168</span>.99.100:<span class="number">16381</span> <span class="number">192.168</span>.99.100 <span class="number">16381</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16379</span></span><br><span class="line">7:X 15 Nov 12:50:35.795 # +sdown slave 192.168.99.100:16381 192.168.99.100 16381 @ mymaster 192.168.99.100 16379</span><br></pre></td></tr></table></figure>
+<p>重新启动会重新从主服务器加载数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">8</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.461</span> * DB loaded from append only file: <span class="number">0.619</span> seconds</span><br><span class="line"><span class="number">8</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.461</span> * The server is now ready to accept connections on port <span class="number">16381</span></span><br><span class="line"><span class="number">8</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.461</span> * Connecting to MASTER <span class="number">192.168</span>.99.100:<span class="number">16379</span></span><br><span class="line"><span class="number">8</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.461</span> * MASTER &lt;-&gt; SLAVE sync started</span><br><span class="line"><span class="number">8</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.461</span> * Non blocking connect <span class="keyword">for</span> SYNC fired the event.</span><br><span class="line"><span class="number">8</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.461</span> * Master replied to PING, replication can <span class="keyword">continue</span>...</span><br><span class="line"><span class="number">8</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.461</span> * <span class="function">Partial resynchronization not <span class="title">possible</span> <span class="params">(no cached master)</span></span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:04.468 * Full resync from master: 6cc2e4e7bbb4680ac0a8d9f7e5390f96eb1b1d76:38408411</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:05.291 * MASTER &lt;-&gt; SLAVE sync: receiving 10532180 bytes from master</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:05.314 * MASTER &lt;-&gt; SLAVE sync: Flushing old data</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:05.354 * MASTER &lt;-&gt; SLAVE sync: Loading DB in memory</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:06.422 * MASTER &lt;-&gt; SLAVE sync: Finished with success</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:06.424 * Background append only file rewriting started by pid 11</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:07.703 * AOF rewrite child asks to stop sending diffs.</span></span><br><span class="line"><span class="function">11:C 15 Nov 13:00:07.703 * Parent agreed to stop sending diffs. Finalizing AOF...</span></span><br><span class="line"><span class="function">11:C 15 Nov 13:00:07.703 * Concatenating 0.00 MB of AOF diff received from parent.</span></span><br><span class="line"><span class="function">11:C 15 Nov 13:00:07.703 * SYNC append only file rewrite performed</span></span><br><span class="line"><span class="function">11:C 15 Nov 13:00:07.703 * AOF rewrite: 8 MB of memory used by copy-on-write</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:07.739 * Background AOF rewrite terminated with success</span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:07.740 * Residual parent diff successfully flushed to the rewritten <span class="title">AOF</span> <span class="params">(<span class="number">0.00</span> MB)</span></span></span><br><span class="line"><span class="function">8:S 15 Nov 13:00:07.740 * Background AOF rewrite finished successfully</span></span><br></pre></td></tr></table></figure>
+<p>挂掉master 哨兵日志 哨兵会投票重新选取master</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">7:X 15 Nov 12:41:31.885 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span><br><span class="line">7:X 15 Nov 12:41:31.887 # Sentinel ID is 558ea99046801b4451dd49945d405f63e125f11e</span><br><span class="line">7:X 15 Nov 12:41:31.887 # +monitor master mymaster 192.168.99.100 16379 quorum 2</span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">12</span>:<span class="number">41</span>:<span class="number">31.887</span> * +slave slave <span class="number">192.168</span>.99.100:<span class="number">16380</span> <span class="number">192.168</span>.99.100 <span class="number">16380</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16379</span></span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">12</span>:<span class="number">41</span>:<span class="number">33.929</span> * +sentinel sentinel <span class="number">8</span>acf7f07765409e85e932c3baea249537f24f94c <span class="number">192.168</span>.99.100 <span class="number">16385</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16379</span></span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">12</span>:<span class="number">41</span>:<span class="number">33.985</span> * +sentinel sentinel dd903d8391315dd23c23ff2f9c5c0a2f57e93ac6 <span class="number">192.168</span>.99.100 <span class="number">16384</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16379</span></span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">12</span>:<span class="number">41</span>:<span class="number">41.922</span> * +slave slave <span class="number">192.168</span>.99.100:<span class="number">16381</span> <span class="number">192.168</span>.99.100 <span class="number">16381</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16379</span></span><br><span class="line">7:X 15 Nov 12:50:35.809 # +sdown slave 192.168.99.100:16381 192.168.99.100 16381 @ mymaster 192.168.99.100 16379</span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">00</span>:<span class="number">04.517</span> * +reboot slave <span class="number">192.168</span>.99.100:<span class="number">16381</span> <span class="number">192.168</span>.99.100 <span class="number">16381</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16379</span></span><br><span class="line">7:X 15 Nov 13:00:04.584 # -sdown slave 192.168.99.100:16381 192.168.99.100 16381 @ mymaster 192.168.99.100 16379</span><br><span class="line">7:X 15 Nov 13:04:19.005 # +sdown master mymaster 192.168.99.100 16379</span><br><span class="line">7:X 15 Nov 13:04:19.119 # +new-epoch 2</span><br><span class="line">7:X 15 Nov 13:04:19.119 # +vote-for-leader 8acf7f07765409e85e932c3baea249537f24f94c 2</span><br><span class="line">7:X 15 Nov 13:04:19.611 # +config-update-from sentinel 8acf7f07765409e85e932c3baea249537f24f94c 192.168.99.100 16385 @ mymaster 192.168.99.100 16379</span><br><span class="line">7:X 15 Nov 13:04:19.611 # +switch-master mymaster 192.168.99.100 16379 192.168.99.100 16381</span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">04</span>:<span class="number">19.611</span> * +slave slave <span class="number">192.168</span>.99.100:<span class="number">16380</span> <span class="number">192.168</span>.99.100 <span class="number">16380</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16381</span></span><br><span class="line"><span class="number">7</span>:X <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">04</span>:<span class="number">19.611</span> * +slave slave <span class="number">192.168</span>.99.100:<span class="number">16379</span> <span class="number">192.168</span>.99.100 <span class="number">16379</span> @ mymaster <span class="number">192.168</span>.99.100 <span class="number">16381</span></span><br></pre></td></tr></table></figure>
+<p>启动master 发现成为了一个从服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">6:M 15 Nov 13:08:18.767 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span><br><span class="line">6:M 15 Nov 13:08:18.767 # Server started, Redis version 3.2.11</span><br><span class="line">6:M 15 Nov 13:08:18.767 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.</span><br><span class="line">6:M 15 Nov 13:08:18.767 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.</span><br><span class="line"><span class="number">6</span>:M <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">21.409</span> * DB loaded from append only file: <span class="number">2.642</span> seconds</span><br><span class="line"><span class="number">6</span>:M <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">21.409</span> * The server is now ready to accept connections on port <span class="number">16379</span></span><br><span class="line"><span class="number">6</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">28.852</span> * SLAVE OF <span class="number">192.168</span>.99.100:<span class="number">16381</span> enabled (user request from <span class="string">'id=2 addr=192.168.99.100:59528 fd=8 name= age=10 idle=0 flags=x db=0 sub=0 psub=0 multi=3 qbuf=0 qbuf-free=32768 obl=36 oll=0 omem=0 events=r cmd=exec'</span>)</span><br><span class="line">6:S 15 Nov 13:08:28.853 # CONFIG REWRITE executed with success.</span><br><span class="line"><span class="number">6</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">29.457</span> * Connecting to MASTER <span class="number">192.168</span>.99.100:<span class="number">16381</span></span><br><span class="line"><span class="number">6</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">29.457</span> * MASTER &lt;-&gt; SLAVE sync started</span><br><span class="line"><span class="number">6</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">29.457</span> * Non blocking connect <span class="keyword">for</span> SYNC fired the event.</span><br><span class="line"><span class="number">6</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">29.458</span> * Master replied to PING, replication can <span class="keyword">continue</span>...</span><br><span class="line"><span class="number">6</span>:S <span class="number">15</span> Nov <span class="number">13</span>:<span class="number">08</span>:<span class="number">29.458</span> * <span class="function">Partial resynchronization not <span class="title">possible</span> <span class="params">(no cached master)</span></span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:29.463 * Full resync from master: 8cf78a3d6fe25eb719901e129627cc5f7556c6d4:52502</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:30.107 * MASTER &lt;-&gt; SLAVE sync: receiving 10532180 bytes from master</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:30.136 * MASTER &lt;-&gt; SLAVE sync: Flushing old data</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:30.573 * MASTER &lt;-&gt; SLAVE sync: Loading DB in memory</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:31.579 * MASTER &lt;-&gt; SLAVE sync: Finished with success</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:31.581 * Background append only file rewriting started by pid 9</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:32.494 * AOF rewrite child asks to stop sending diffs.</span></span><br><span class="line"><span class="function">9:C 15 Nov 13:08:32.495 * Parent agreed to stop sending diffs. Finalizing AOF...</span></span><br><span class="line"><span class="function">9:C 15 Nov 13:08:32.495 * Concatenating 0.00 MB of AOF diff received from parent.</span></span><br><span class="line"><span class="function">9:C 15 Nov 13:08:32.495 * SYNC append only file rewrite performed</span></span><br><span class="line"><span class="function">9:C 15 Nov 13:08:32.496 * AOF rewrite: 2 MB of memory used by copy-on-write</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:32.584 * Background AOF rewrite terminated with success</span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:32.584 * Residual parent diff successfully flushed to the rewritten <span class="title">AOF</span> <span class="params">(<span class="number">0.00</span> MB)</span></span></span><br><span class="line"><span class="function">6:S 15 Nov 13:08:32.584 * Background AOF rewrite finished successfully</span></span><br></pre></td></tr></table></figure>
+<p>测试通过。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    严海林
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://ybigbang.github.io/2017/11/15/docker搭建redis集群/" title="docker搭建redis集群">http://ybigbang.github.io/2017/11/15/docker搭建redis集群/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/14/spring-cloud-stream-rabbitmq/" rel="next" title="spring-cloud-stream-rabbitmq">
+                <i class="fa fa-chevron-left"></i> spring-cloud-stream-rabbitmq
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/myTag.jpg"
+                alt="严海林" />
+            
+              <p class="site-author-name" itemprop="name">严海林</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Ybigbang" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-构建-redis-集群"><span class="nav-number">1.</span> <span class="nav-text">docker 构建 redis 集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-集群分类"><span class="nav-number">2.</span> <span class="nav-text">redis 集群分类:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#制作镜像"><span class="nav-number">3.</span> <span class="nav-text">制作镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">4.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">5.</span> <span class="nav-text">测试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">严海林</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Ybigbang',
+            repo: 'Ybigbang.github.io',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'b5a0b1528c750f2d152a3a964cff5e6049d8a439',
+            
+                client_id: '3e766e5da0fbd4b3ce4e'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+   <script color="211,0,255" zIndex="-1" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
+</body>
+</html>
