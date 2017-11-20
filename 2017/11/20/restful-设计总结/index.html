@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Restful浅析在做restful接口设计的时候发现自己所知甚少，在网络上找到一篇文章发现写的不错，希望自己可以设计出来一组完美的接口。转载一下原文地址：http://blog.csdn.net/andycooler/article/details/49951533 概述 做出一个好的API设计很难。API表达的是你的数据和你的数据使用者之间的契约。打破这个契约将会招致很多愤怒的邮件，和一大堆伤">
+<meta property="og:type" content="article">
+<meta property="og:title" content="restful 设计总结">
+<meta property="og:url" content="http://ybigbang.github.io/2017/11/20/restful-设计总结/index.html">
+<meta property="og:site_name" content="颜如玉">
+<meta property="og:description" content="Restful浅析在做restful接口设计的时候发现自己所知甚少，在网络上找到一篇文章发现写的不错，希望自己可以设计出来一组完美的接口。转载一下原文地址：http://blog.csdn.net/andycooler/article/details/49951533 概述 做出一个好的API设计很难。API表达的是你的数据和你的数据使用者之间的契约。打破这个契约将会招致很多愤怒的邮件，和一大堆伤">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-20T12:21:02.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="restful 设计总结">
+<meta name="twitter:description" content="Restful浅析在做restful接口设计的时候发现自己所知甚少，在网络上找到一篇文章发现写的不错，希望自己可以设计出来一组完美的接口。转载一下原文地址：http://blog.csdn.net/andycooler/article/details/49951533 概述 做出一个好的API设计很难。API表达的是你的数据和你的数据使用者之间的契约。打破这个契约将会招致很多愤怒的邮件，和一大堆伤">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '严海林'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ybigbang.github.io/2017/11/20/restful-设计总结/"/>
+
+
+
+
+
+  <title>restful 设计总结 | 颜如玉</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Ybigbang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">颜如玉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每天爬一坑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ybigbang.github.io/2017/11/20/restful-设计总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="严海林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myTag.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="颜如玉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">restful 设计总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T19:49:16+08:00">
+                2017-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/20/restful-设计总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/11/20/restful-设计总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6,660
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  24
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Restful浅析"><a href="#Restful浅析" class="headerlink" title="Restful浅析"></a>Restful浅析</h1><p>在做restful接口设计的时候发现自己所知甚少，在网络上找到一篇文章发现写的不错，希望自己可以设计出来一组完美的接口。转载一下原文地址：<a href="http://blog.csdn.net/andycooler/article/details/49951533" target="_blank" rel="external">http://blog.csdn.net/andycooler/article/details/49951533</a></p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<p>做出一个好的API设计很难。API表达的是你的数据和你的数据使用者之间的契约。打破这个契约将会招致很多愤怒的邮件，和一大堆伤心的用户-因为他们手机上的App不工作了。而文档化只能达到一半的效果，并且也很难找到一个愿意写文档的程序员。</p>
+<p>你所能做的最重要一件事来提高服务的价值就是创建一个API。因为随着其他服务的成长，有这样一个API会使你的服务或者核心应用将有机会变成一个平台。环顾一下现有的这些大公司：Facebook，Twitter，Google，<br>Github，Amazon，Netflix等。如果当时他们没有通过API来开放数据的话，也不可能成长到如今的规模。事实上，整个行业存在的唯一目的就是消费所谓平台上的数据。</p>
+<p>你的API越容易使用，那么就会有越多的人去用它</p>
+<p>本文提到的这些原则，如果你的API能严格按照这些原则来设计，使用者就可以知道它接下来要做什么，并且能减少大量不必要的疑惑或者是愤怒的邮件。我已经把所有内容都整理到不同的主题里了，你无需按顺序去阅读它。</p>
+</blockquote>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>这里有一些非常重要的术语，我将在本文里面一直用到它们：</p>
+<ul>
+<li>资源：一个对象的单独实例，如一只动物</li>
+<li>集合：一群同种对象，如动物</li>
+<li>HTTP：跨网络的通信协议</li>
+<li>客户端：可以创建HTTP请求的客户端应用程序</li>
+<li>第三方开发者：这个开发者不属于你的项目但是有想使用你的数据</li>
+<li>服务器：一个HTTP服务器或者应用程序，客户端可以跨网络访问它</li>
+<li>端点：这个API在服务器上的URL用于表达一个资源或者一个集合</li>
+<li>幂等：无边际效应，多次操作得到相同的结果</li>
+<li>URL段：在URL里面已斜杠分隔的内容</li>
+</ul>
+<h3 id="数据设计与抽象"><a href="#数据设计与抽象" class="headerlink" title="数据设计与抽象"></a>数据设计与抽象</h3><p>规划好你的API的外观要先于开发它实际的功能。首先你要知道数据该如何设计和核心服务/应用程序会如何工作。如果你纯粹新开发一个API，这样会比较容易一些。但如果你是往已有的项目中增加API，你可能需要提供更多的抽象。</p>
+<p>有时候一个集合可以表达一个数据库表，而一个资源可以表达成里面的一行记录，但是这并不是常态。事实上，你的API应该尽可能通过抽象来分离数据与业务逻辑。这点非常重要，只有这样做你才不会打击到那些拥有复杂业务的第三方开发者，否则他们是不会使用你的API的。</p>
+<p>当然你的服务可能很多部分是不应该通过API暴露出去的。比较常见的例子就是很多API是不允许第三方来创建用户的。</p>
+<h3 id="动词"><a href="#动词" class="headerlink" title="动词"></a>动词</h3><p>显然你了解GET和POST请求。当你用浏览器去访问不同页面的时候，这两个是最常见的请求。POST术语如此流行以至于开始侵扰通俗用语。即使是那些不知道互联网如何工作的人们也能“post”一些东西到朋友的Facebook墙上。</p>
+<p>这里至少有四个半非常重要的HTTP动词需要你知道。我之所以说“半个”的意思是PATCH这个动词非常类似于PUT，并且它们俩也常常被开发者绑定到同一个API上。</p>
+<ul>
+<li>GET (选择)：从服务器上获取一个具体的资源或者一个资源列表。</li>
+<li>POST （创建）： 在服务器上创建一个新的资源。</li>
+<li>PUT （更新）：以整体的方式更新服务器上的一个资源。</li>
+<li>PATCH （更新）：只更新服务器上一个资源的一个属性。</li>
+<li>DELETE （删除）：删除服务器上的一个资源。</li>
+</ul>
+<p>还有两个不常用的HTTP动词：</p>
+<ul>
+<li>HEAD ： 获取一个资源的元数据，如数据的哈希值或最后的更新时间。</li>
+<li>OPTIONS：获取客户端能对资源做什么操作的信息。</li>
+</ul>
+<p><strong>一个好的RESTful API只允许第三方调用者使用这四个半HTTP动词进行数据交互，并且在URL段里面不出现任何其他的动词。</strong></p>
+<p>一般来说，GET请求可以被浏览器缓存（通常也是这样的）。例如，缓存请求头用于第二次用户的POST请求。HEAD请求是基于一个无响应体的GET请求，并且也可以被缓存的。</p>
+<h3 id="版本化"><a href="#版本化" class="headerlink" title="版本化"></a>版本化</h3><p>无论你正在构建什么，无论你在入手前做了多少计划，你核心的应用总会发生变化，数据关系也会变化，资源上的属性也会被增加或删除。只要你的项目还活着，并且有大量的用户在用，这种情况总是会发生。</p>
+<p>请谨记一点，API是服务器与客户端之间的一个公共契约。如果你对服务器上的API做了一个更改，并且这些更改无法向后兼容，那么你就打破了这个契约，客户端又会要求你重新支持它。为了避免这样的事情，你既要确保应用程序逐步的演变，又要让客户端满意。那么你必须在引入新版本API的同时保持旧版本API仍然可用。</p>
+<p>注：如果你只是简单的增加一个新的特性到API上，如资源上的一个新属性或者增加一个新的端点，你不需要增加API的版本。因为这些并不会造成向后兼容性的问题，你只需要修改文档即可。</p>
+<p>随着时间的推移，你可能声明不再支持某些旧版本的API。申明不支持一个特性并不意味着关闭或者破坏它。而是告诉客户端旧版本的API将在某个特定的时间被删除，并且建议他们使用新版本的API。</p>
+<p><strong>一个好的RESTful API会在URL中包含版本信息。另一种比较常见的方案是在请求头里面保持版本信息。但是跟很多不同的第三方开发者一起工作后，我可以很明确的告诉你，在请求头里面包含版本信息远没有放在URL里面来的容易。</strong></p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p><strong>所谓API分析就是持续跟踪那些正为人使用的API的版本和端点信息。</strong>而这可能就跟每次请求都往数据库增加一个整数那样简单。有很多的原因显示API跟踪分析是一个好主意，例如，对那些使用最广泛的API来说效率是最重要的。</p>
+<p>第三方开发者通常会关注API的构建目的，其中最重要的一个目的是你决定什么时候不再支持某个版本。你需要明确的告知开发者他们正在使用那些即将被移除的API特性。这是一个很好的方式在你准备删除旧的API之前去提醒他们进行升级。</p>
+<p>当然第三方开发者的通知流程可以以某种条件被自动触发，例如每当一个过时的特性上发生10000次请求时就发邮件通知开发者。</p>
+<h3 id="API根URL"><a href="#API根URL" class="headerlink" title="API根URL"></a>API根URL</h3><p>无论你信不信，API的根地址很重要。当一个开发者接手了一个旧项目（如进行代码考古时）。而这个项目正在使用你的API，同时开发者还想构建一个新的特性，但他们完全不知道你的服务。幸运的是他们知道客户端对外调用的那些URL列表。让你的API根入口点保持尽可能的简单是很重要的，因为开发者很可能一看到那些冗长而又复杂的URL就转身而走。</p>
+<p>这里有两个常见的URL根例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://example.org/api/v1/* (适合使用相同架构支持站点和API的小型应用)</span><br><span class="line">https://api.example.com/v1/* (适合比较庞大的API应用)</span><br></pre></td></tr></table></figure>
+<p>如果你的应用很庞大或者你预期它将会变的很庞大，那么将<strong>API放到子域下通常是一个好选择</strong>。这种做法可以保持某些规模化上的灵活性。</p>
+<p>但如果你觉得你的API不会变的很庞大，或是你只是想让应用安装更简单些（如你想用相同的框架来支持站点和API），将你的API放到根域名下也是可以的。</p>
+<p><strong>让API根拥有一些内容通常也是个好主意。Github的API根就是一个典型的例子。从个人角度来说我是一个通过根URL发布信息的粉丝，这对很多人来说是有用的，例如如何获取API相关的开发文档。</strong></p>
+<p><strong>同样也请注意HTTPS前缀，一个好的RESTful API总是基于HTTPS来发布的。</strong></p>
+<h3 id="端点"><a href="#端点" class="headerlink" title="端点"></a>端点</h3><p><strong>一个端点就是指向特定资源或资源集合的URL。</strong></p>
+<p>如果你正在构建一个虚构的API来展现几个不同的动物园，每一个动物园又包含很多动物，员工和每个动物的物种，你可能会有如下的端点信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://api.example.com/v1/zoos</span><br><span class="line">https://api.example.com/v1/animals</span><br><span class="line">https://api.example.com/v1/animal_types</span><br><span class="line">https://api.example.com/v1/employees</span><br></pre></td></tr></table></figure>
+<p><strong>针对每一个端点来说，你可能想列出所有可行的HTTP动词和端点的组合。</strong>如下所示，请注意我把HTTP动词都放在了虚构的API之前，正如将同样的注解放在每一个HTTP请求头里一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">GET /zoos: 获取所有动物园列表</span><br><span class="line">POST /zoos: 创建一个新的动物园</span><br><span class="line">GET /zoos/ZID: 获取一个完整的动物园对象</span><br><span class="line">PUT /zoos/ZID: 更新一个动物园对象 (完整对象)</span><br><span class="line">PATCH /zoos/ZID: 更新一个动物园对象 (局部对象)</span><br><span class="line">DELETE /zoos/ZID: 删除一个动物</span><br><span class="line">GET /zoos/ZID/animals: 获取一个动物园中的动物列表</span><br><span class="line">GET /animals: 获取所有动物列表</span><br><span class="line">POST /animals: 新建一个动物</span><br><span class="line">GET /animals/AID: 获取一个动物对象</span><br><span class="line">PUT /animals/AID: 更新一个动物对象 (完整对象)</span><br><span class="line">PATCH /animals/AID: 更新一个动物对象 (局部对象)</span><br><span class="line">GET /animal_types: 获取一个动物类型列表</span><br><span class="line">GET /animal_types/ATID: 获取一个动物类型</span><br><span class="line">GET /employees: 获取所有员工列表</span><br><span class="line">GET /employees/EID: 获取指定员工对象</span><br><span class="line">GET /zoos/ZID/employees: 获取指定动物园里的员工列表</span><br><span class="line">POST /employees: 新建一个员工</span><br><span class="line">POST /zoos/ZID/employees: 指定动物园雇佣员工</span><br><span class="line">DELETE /zoos/ZID/employees/EID: 解雇指定动物园里的指定员工</span><br></pre></td></tr></table></figure>
+<p>在上面的列表里，ZID表示动物园的ID， AID表示动物的ID，EID表示雇员的ID，还有ATID表示物种的ID。让文档里所有的东西都有一个关键字是一个好主意。</p>
+<p>为了简洁起见，我已经省略了所有API共有的URL前缀。作为沟通方式这没什么问题，但是如果你真要写到API文档中，那就必须包含完整的路径（如，GET <a href="http://api.example.com/v1/animal_type/ATID" target="_blank" rel="external">http://api.example.com/v1/animal_type/ATID</a>）。</p>
+<p><strong>请注意如何展示数据之间的关系，特别是雇员与动物园之间的多对多关系。通过添加一个额外的URL段就可以实现更多的交互能力。</strong>当然没有一个HTTP动词能表示正在解雇一个人，但是你可以使用DELETE一个动物园里的雇员来达到相同的效果。</p>
+<h3 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h3><p>当客户端创建了一个请求来获取一个对象列表时，很重要一点就是你要返回给他们一个符合查询条件的所有对象的列表。这个列表可能会很大。但你不能随意给返回数据的数量做限制。因为这些无谓的限制会导致第三方开发者不知道发生了什么。如果他们请求一个确切的集合并且要遍历结果，然而他们发现只拿到了100条数据。接下来他们就不得不去查找这个限制条件的出处。到底是ORM的bug导致的，还是因为网络截断了大数据包？</p>
+<p>尽可能减少那些会影响到第三方开发者的无谓限制</p>
+<p>这点很重要，但你可以让客户端自己对结果做一些具体的过滤或限制。这么做最重要的一个原因是可以最小化网络传输，并让客户端尽可能快的得到查询结果。其次是客户端可能比较懒，如果这时服务器能对结果做一些过滤或分页，对大家都是好事。另外一个不那么重要的原因是（从客户端角度来说），对服务器来说响应请求的负载越少越好。</p>
+<p><strong>过滤器是最有效的方式去处理那些获取资源集合的请求。所以只要出现GET的请求，就应该通过URL来过滤信息。</strong>以下有一些过滤器的例子，可能是你想要填加到API中的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?limit=10: 减少返回给客户端的结果数量（用于分页）</span><br><span class="line">?offset=10: 发送一堆信息给客户端（用于分页）</span><br><span class="line">?animal_type_id=1: 使用条件匹配来过滤记录</span><br><span class="line">?sortby=name&amp;order=asc:  对结果按特定属性进行排序</span><br></pre></td></tr></table></figure>
+<p>有些过滤器可能会与端点URL的效果重复。例如我之前提到的GET /zoo/ZID/animals。它也同样可以通过GET /animals?zoo_id=ZID来实现。<strong>独立的端点会让客户端更好过一些，因为他们的需求往往超出你的预期</strong>。本文中提到这种冗余差异可能对第三方开发者并不可见。</p>
+<p><strong>无论怎么说，当你准备过滤或排序数据时，你必须明确的将那些客户端可以过滤或排序的列放到白名单中，因为我们不想将任何的数据库错误发送给客户端。</strong></p>
+<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><p>对于一个RESTful API来说很重要的一点就是要使用HTTP的状态码，因为它们是HTTP的标准。很多的网络设备都可以识别这些状态码，例如负载均衡器可能会通过配置来避免发送请求到一台web服务器，如果这台服务器已经发送了很多的50x错误回来。这里有大量的HTTP状态码可以选择，但是下面的列表只给出了一些重要的代码作为一个参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">200 OK – [GET]</span><br><span class="line">    The Consumer requested data from the Server, and the Server found it for them (Idempotent)</span><br><span class="line">    客户端向服务器请求数据，服务器成功找到它们</span><br><span class="line">201 CREATED – [POST/PUT/PATCH]</span><br><span class="line">    The Consumer gave the Server data, and the Server created a resource</span><br><span class="line">    客户端向服务器提供数据，服务器根据要求创建了一个资源</span><br><span class="line">204 NO CONTENT – [DELETE]</span><br><span class="line">    The Consumer asked the Server to delete a Resource, and the Server deleted it</span><br><span class="line">    客户端要求服务器删除一个资源，服务器删除成功</span><br><span class="line">400 INVALID REQUEST – [POST/PUT/PATCH]</span><br><span class="line">    The Consumer gave bad data to the Server, and the Server did nothing with it (Idempotent)</span><br><span class="line">    客户端向服务器提供了不正确的数据，服务器什么也没做</span><br><span class="line">404 NOT FOUND – [*]</span><br><span class="line">    The Consumer referenced an inexistant Resource or Collection, and the Server did nothing (Idempotent)</span><br><span class="line">    客户端引用了一个不存在的资源或集合，服务器什么也没做</span><br><span class="line">500 INTERNAL SERVER ERROR – [*]</span><br><span class="line">    The Server encountered an error, and the Consumer has no knowledge if the request was successful</span><br><span class="line">    服务器发生内部错误，客户端无法得知结果，即便请求已经处理成功</span><br></pre></td></tr></table></figure>
+<h3 id="状态码范围"><a href="#状态码范围" class="headerlink" title="状态码范围"></a>状态码范围</h3><p>1xx范围的状态码是保留给底层HTTP功能使用的，并且估计在你的职业生涯里面也用不着手动发送这样一个状态码出来。</p>
+<p>2xx范围的状态码是保留给成功消息使用的，你尽可能的确保服务器总发送这些状态码给用户。</p>
+<p>3xx范围的状态码是保留给重定向用的。大多数的API不会太常使用这类状态码，但是在新的超媒体样式的API中会使用更多一些。</p>
+<p>4xx范围的状态码是保留给客户端错误用的。例如，客户端提供了一些错误的数据或请求了不存在的内容。这些请求应该是幂等的，不会改变任何服务器的状态。</p>
+<p>5xx范围的状态码是保留给服务器端错误用的。这些错误常常是从底层的函数抛出来的，并且开发人员也通常没法处理。发送这类状态码的目的是确保客户端能得到一些响应。收到5xx响应后，客户端没办法知道服务器端的状态，所以这类状态码是要尽可能的避免。</p>
+<h3 id="预期的返回文档"><a href="#预期的返回文档" class="headerlink" title="预期的返回文档"></a>预期的返回文档</h3><p>当使用不同的HTTP动词向服务器请求时，客户端需要在返回结果里面拿到一系列的信息。下面的列表是非常经典的RESTful API定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /collection: 返回一系列资源对象</span><br><span class="line">GET /collection/resource: 返回单独的资源对象</span><br><span class="line">POST /collection: 返回新创建的资源对象</span><br><span class="line">PUT /collection/resource: 返回完整的资源对象</span><br><span class="line">PATCH /collection/resource: 返回完整的资源对象</span><br><span class="line">DELETE /collection/resource: 返回一个空文档</span><br></pre></td></tr></table></figure>
+<p>请注意当一个客户端创建一个资源时，她们常常不知道新建资源的ID（也许还有其他的属性，如创建和修改的时间戳等）。这些属性将在随后的请求中返回，并且作为刚才POST请求的一个响应结果。</p>
+<h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><p>服务器在大多数情况下是想确切的知道谁创建了什么请求。当然，有些API是提供给公共用户（匿名用户）的，但是大部分时间里也是代表某人的利益。</p>
+<p>OAuth2.0提供了一个非常好的方法去做这件事。在每一个请求里，你可以明确知道哪个客户端创建了请求，哪个用户提交了请求，并且提供了一种标准的访问过期机制或允许用户从客户端注销，所有这些都不需要第三方的客户端知道用户的登陆认证信息。</p>
+<p>还有OAuth1.0和xAuth同样适用这样的场景。无论你选择哪个方法，请确保它为多种不同语言/平台上的库提供了一些通用的并且设计良好文档，因为你的用户可能会使用这些语言和平台来编写客户端。</p>
+<h3 id="内容类型"><a href="#内容类型" class="headerlink" title="内容类型"></a>内容类型</h3><p>目前，大多数“精彩”的API都为RESTful接口提供JSON数据。诸如Facebook，Twitter，Github等等你所知的。XML曾经也火过一把（通常在一个大企业级环境下）。这要感谢SOAP，不过它已经挂了，并且我们也没看到太多的API把HTML作为结果返回给客户端（除非你在构建一个爬虫程序）。</p>
+<p>只要你返回给他们有效的数据格式，开发者就可以使用流行的语言和框架进行解析。如果你正在构建一个通用的响应对象，通过使用一个不同的序列化器，你也可以很容易的提供之前所提到的那些数据格式（不包括SOAP）。而你所要做的就是把使用方式放在响应数据的接收头里面。</p>
+<p><strong>有些API的创建者会推荐把.json, .xml, .html等文件的扩展名放在URL里面来指示返回内容类型，但我个人并不习惯这么做。我依然喜欢通过接收头来指示返回内容类型（这也是HTTP标准的一部分），并且我觉得这么做也比较适当一些。</strong></p>
+<h3 id="超媒体API"><a href="#超媒体API" class="headerlink" title="超媒体API"></a>超媒体API</h3><p>超媒体API很可能就是RESTful API设计的将来。超媒体是一个非常棒的概念，它回归到了HTTP和HTML如何运作的“本质”。</p>
+<p>在非超媒体RESTful API的情景中，URL端点是服务器与客户端契约的一部分。这些端点必须让客户端事先知道，并且修改它们也意味着客户端可能再也无法与服务器通信了。你可以先假定这是一个限制。</p>
+<p>时至今日，英特网上的API客户端已经不仅仅只有那些创建HTTP请求的用户代理了。大多数HTTP请求是由人们通过浏览器产生的。人们不会被哪些预先定义好的RESTful API端点URL所束缚。是什么让人们变的如此与众不同？因为人们可以阅读内容，可以点击他们感兴趣的链接，并浏览一下网站，然后跳到他们关注的内容那里。即使一个URL改变了，人们也不会受到影响（除非他们事先给某个页面做了书签，这时他们回到主页并发现原来有一条新的路径可以去往之前的页面）。</p>
+<p>超媒体API概念的运作跟人们的行为类似。通过请求API的根来获得一个URL的列表，这个列表里面的每一个URL都指向一个集合，并且提供了客户端可以理解的信息来描述每一个集合。是否为每一个资源提供ID并不重要（或者不是必须的），只要提供URL即可。</p>
+<p>一个超媒体API一旦具有了客户端，那么它就可以爬行链接并收集信息，而URL总是在响应中被更新，并且不需要如契约的一部分那样事先被知晓。如果一个URL曾经被缓存过，并且在随后的请求中返回404错误，那么客户端可以很简单的回退到根URL并重新发现内容。</p>
+<p>在获取集合中的一个资源列表时会返回一个属性，这个属性包含了各个资源的完整URL。当实施一个POST/PATCH/PUT请求后，响应可以被一个3xx的状态码重定向到完整的资源上。</p>
+<p>JSON不仅告诉了我们需要定义哪些属性作为URL，也告诉了我们如何将URL与当前文档关联的语义。正如你猜的那样，HTML就提供了这样的信息。我们可能很乐意看到我们的API走完了完整的周期，并回到了处理HTML上来。想一下我们与CSS一起前行了多远，有一天我们可能再次看到它变成了一个通用实践让API和网站可以去使用相同的URL和内容。</p>
+<h3 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h3><p>老实说，即使你不能百分之百的遵循指南中的条款，你的API也不是那么糟糕。但是，如果你不为API准备文档的话，没有人会知道怎么使用它，那它真的会成为一个糟糕的API。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">让你的文档对那些未经认证的开发者也可用</span><br><span class="line">不要使用文档自动化生成器，即便你用了，你也要保证自己审阅过并让它具有更好的版式。</span><br><span class="line">不要截断示例中请求与响应的内容，要展示完整的东西。并在文档中使用高亮语法。</span><br><span class="line">文档化每一个端点所预期的响应代码和可能的错误消息，和在什么情况下会产生这些的错误消息</span><br><span class="line">12345</span><br></pre></td></tr></table></figure>
+<p>如果你有富余的时间，那就创建一个控制台来让开发者可以立即体验一下API的功能。创建一个控制台并没有想象中那么难，并且开发者们（内部或者第三方）也会因此而拥戴你。</p>
+<p>另外确保你的文档能够被打印。CSS是个强大的工具可以帮助到你。而且在打印的时候也不用太担心边侧栏的问题。即便没有人会打印到纸上，你也会惊奇的发现很多开发者愿意转化成PDF格式进行离线阅读。</p>
+<h3 id="勘误：原始的HTTP封包"><a href="#勘误：原始的HTTP封包" class="headerlink" title="勘误：原始的HTTP封包"></a>勘误：原始的HTTP封包</h3><p>因为我们所做的都是基于HTTP协议，所以我将展示给你一个解析了的HTTP封包。我经常很惊讶的发现有多少人不知道这些东西。当客户端发送一个请求到服务器时，他们会提供一个键值对集，先是一个头，紧跟着是两个回车换行符，然后才是请求体。所有这些都是在一个封包里被发送。</p>
+<p>服务器响应也是同样的键值对集，带两个回车换行符，然后是响应体。HTTP就是一个请求/响应协议；它不支持“推送”模式（服务器直接发送数据给客户端），除非你采用其他协议，如Websockets。</p>
+<p>当你设计API时，你应该能够使用工具去查看原始的HTTP封包。Wireshark是个不错的选择。同时，你也该采用一个框架/web服务器，使你能够在必要时修改某些字段的值。</p>
+<p>Example HTTP Request</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST /v1/animal HTTP/1.1</span><br><span class="line">Host: api.example.org</span><br><span class="line">Accept: application/json</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 24</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;Gir&quot;,</span><br><span class="line">  &quot;animal_type&quot;: 12</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Example HTTP Response</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Wed, 18 Dec 2013 06:08:22 GMT</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Access-Control-Max-Age: 1728000</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: 12,</span><br><span class="line">  &quot;created&quot;: 1386363036,</span><br><span class="line">  &quot;modified&quot;: 1386363036,</span><br><span class="line">  &quot;name&quot;: &quot;Gir&quot;,</span><br><span class="line">  &quot;animal_type&quot;: 12</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    严海林
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://ybigbang.github.io/2017/11/20/restful-设计总结/" title="restful 设计总结">http://ybigbang.github.io/2017/11/20/restful-设计总结/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/20/spring-boot使用redis/" rel="next" title="spring boot使用redis">
+                <i class="fa fa-chevron-left"></i> spring boot使用redis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/myTag.jpg"
+                alt="严海林" />
+            
+              <p class="site-author-name" itemprop="name">严海林</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Ybigbang" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Restful浅析"><span class="nav-number">1.</span> <span class="nav-text">Restful浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.0.2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据设计与抽象"><span class="nav-number">1.0.3.</span> <span class="nav-text">数据设计与抽象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动词"><span class="nav-number">1.0.4.</span> <span class="nav-text">动词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本化"><span class="nav-number">1.0.5.</span> <span class="nav-text">版本化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">1.0.6.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API根URL"><span class="nav-number">1.0.7.</span> <span class="nav-text">API根URL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#端点"><span class="nav-number">1.0.8.</span> <span class="nav-text">端点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤器"><span class="nav-number">1.0.9.</span> <span class="nav-text">过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态码"><span class="nav-number">1.0.10.</span> <span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态码范围"><span class="nav-number">1.0.11.</span> <span class="nav-text">状态码范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预期的返回文档"><span class="nav-number">1.0.12.</span> <span class="nav-text">预期的返回文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#认证"><span class="nav-number">1.0.13.</span> <span class="nav-text">认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内容类型"><span class="nav-number">1.0.14.</span> <span class="nav-text">内容类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超媒体API"><span class="nav-number">1.0.15.</span> <span class="nav-text">超媒体API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文档"><span class="nav-number">1.0.16.</span> <span class="nav-text">文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#勘误：原始的HTTP封包"><span class="nav-number">1.0.17.</span> <span class="nav-text">勘误：原始的HTTP封包</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">严海林</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Ybigbang',
+            repo: 'Ybigbang.github.io',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'b5a0b1528c750f2d152a3a964cff5e6049d8a439',
+            
+                client_id: '3e766e5da0fbd4b3ce4e'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+   <script color="211,0,255" zIndex="-1" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
+</body>
+</html>

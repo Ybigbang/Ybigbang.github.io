@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="spring,rabbitmq," />
+  <meta name="keywords" content="redis,spring boot," />
 
 
 
@@ -84,26 +84,21 @@
 
 
 
-<meta name="description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
-<meta name="keywords" content="spring,rabbitmq">
+<meta name="description" content="关于redis就不多介绍了。就介绍一下spring-data-redis的使用。 在用spring boot 开发项目的时候用到了redis。故对spring boot 使用redis数据库做一个简单的记录。 使用spring-data-redis来对redis数据库进行操作 pom中加入依赖 1234&amp;lt;dependency&amp;gt;          &amp;lt;groupId&amp;gt;org.s">
+<meta name="keywords" content="redis,spring boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spring-cloud-stream-rabbitmq">
-<meta property="og:url" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/index.html">
+<meta property="og:title" content="spring boot使用redis">
+<meta property="og:url" content="http://ybigbang.github.io/2017/11/20/spring-boot使用redis/index.html">
 <meta property="og:site_name" content="颜如玉">
-<meta property="og:description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
+<meta property="og:description" content="关于redis就不多介绍了。就介绍一下spring-data-redis的使用。 在用spring boot 开发项目的时候用到了redis。故对spring boot 使用redis数据库做一个简单的记录。 使用spring-data-redis来对redis数据库进行操作 pom中加入依赖 1234&amp;lt;dependency&amp;gt;          &amp;lt;groupId&amp;gt;org.s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片2.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片3.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片4.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片5.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片6.png">
-<meta property="og:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片7.png">
-<meta property="og:updated_time" content="2017-11-14T16:03:43.113Z">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/20/spring-boot使用redis/redis.PNG">
+<meta property="og:image" content="http://ybigbang.github.io/2017/11/20/spring-boot使用redis/redis1.PNG">
+<meta property="og:updated_time" content="2017-11-20T11:41:35.957Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="spring-cloud-stream-rabbitmq">
-<meta name="twitter:description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
-<meta name="twitter:image" content="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png">
+<meta name="twitter:title" content="spring boot使用redis">
+<meta name="twitter:description" content="关于redis就不多介绍了。就介绍一下spring-data-redis的使用。 在用spring boot 开发项目的时候用到了redis。故对spring boot 使用redis数据库做一个简单的记录。 使用spring-data-redis来对redis数据库进行操作 pom中加入依赖 1234&amp;lt;dependency&amp;gt;          &amp;lt;groupId&amp;gt;org.s">
+<meta name="twitter:image" content="http://ybigbang.github.io/2017/11/20/spring-boot使用redis/redis.PNG">
 
 
 
@@ -133,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/"/>
+  <link rel="canonical" href="http://ybigbang.github.io/2017/11/20/spring-boot使用redis/"/>
 
 
 
 
 
-  <title>spring-cloud-stream-rabbitmq | 颜如玉</title>
+  <title>spring boot使用redis | 颜如玉</title>
   
 
 
@@ -310,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/">
+    <link itemprop="mainEntityOfPage" href="http://ybigbang.github.io/2017/11/20/spring-boot使用redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -327,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">spring-cloud-stream-rabbitmq</h1>
+          <h1 class="post-title" itemprop="name headline">spring boot使用redis</h1>
         
 
         <div class="post-meta">
@@ -339,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-14T19:29:27+08:00">
-                2017-11-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T19:41:35+08:00">
+                2017-11-20
               </time>
             
 
@@ -362,8 +357,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/消息队列/" itemprop="url" rel="index">
-                    <span itemprop="name">消息队列</span>
+                  <a href="/categories/spring-boot/" itemprop="url" rel="index">
+                    <span itemprop="name">spring boot</span>
                   </a>
                 </span>
 
@@ -373,8 +368,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/消息队列/rabbitMq/" itemprop="url" rel="index">
-                    <span itemprop="name">rabbitMq</span>
+                  <a href="/categories/spring-boot/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
                   </a>
                 </span>
 
@@ -391,8 +386,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/11/14/spring-cloud-stream-rabbitmq/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/11/14/spring-cloud-stream-rabbitmq/" itemprop="commentsCount"></span>
+                <a href="/2017/11/20/spring-boot使用redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/11/20/spring-boot使用redis/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -419,7 +414,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,243
+                  892
                 </span>
               
 
@@ -435,7 +430,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  9
+                  5
                 </span>
               
             </div>
@@ -456,74 +451,26 @@
       
 
       
-        <h3 id="Spring-cloud-stream-使用-rabbitmq"><a href="#Spring-cloud-stream-使用-rabbitmq" class="headerlink" title="Spring cloud stream 使用 rabbitmq"></a><center>Spring cloud stream 使用 rabbitmq</center></h3><hr>
-<p>在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单</p>
-<p>spring cloud stream 整合rabbitmq</p>
-<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><hr>
-<p>Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务的框架。简单来说，通过SCS我们可以快速地在微服务之间传递异步消息，这对于一些刚起步时需求简单的消息应用是很方便的。</p>
-<hr>
-<h4 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h4><p>尽管很方便，但必要的准备工作还是要做的。SCS本身并不提供消息服务器，因此我们还是要安装像RabbitMQ或Kafka这样的消息服务器，本文会使用RabbitMQ来做讲解，具体如何安装Erlang和RabbitMQ这里不再赘述。安装好以后可以暂时不对RabbitMQ做配置。但要记得运行rabbitmq-plugins enable rabbitmq_management来激活管理平台以方便后续使用 。</p>
-<hr>
-<h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><p>创建一个rabbitmq-producer微服务，默认端口8080</p>
-<p>创建一个接口作为通道，举例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//生产者</span></span><br><span class="line"><span class="comment">//创建一个rabbitmq-producer微服务，默认端口8080；</span></span><br><span class="line"><span class="comment">//创建一个接口作为通道，举例：</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyChannel</span> </span>&#123;</span><br><span class="line">    String OUTPUT = <span class="string">"test"</span>;</span><br><span class="line">    <span class="meta">@Output</span>(OUTPUT)</span><br><span class="line">    <span class="function">MessageChannel <span class="title">output</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>@Output注解代表这是一个输出通道，而通道名就是我们定义的test，一个接口中可以定义多个输入和输出通道。实际上SCS本身提供了三个预定义接口通道，即Source.class单向输出通道，Sink.class单向输入通道，以及继承了它们两个的Processor.class，你可以在源码org.springframework.cloud.stream.messaging包中找到它们。但它们都只是简单示例，真正开发时我们肯定还是要自定义接口作为通道；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建用于发送消息的接口（或直接在启动类中编写）：</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@EnableBinding</span>(MyChannel.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SendController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MyChannel sender;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/send"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">send</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sender.output().send(MessageBuilder.withPayload(<span class="string">"Hello World"</span>).build());</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"fail"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要注意的是，@EnableBinding注解是必须要加的（即使你只使用JUnit测试），但并不是必须添加在启动类上，其实你可以把它放在任何一个Spring能够扫描到的类。但为了方便查找，还是推荐放在启动类或者消息类上。</p>
-<p>生产者至此告一段落，接下来我们看一下消费者。</p>
-<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><hr>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个consumer微服务，为防止与生产者冲突，端口号设为8081；</span></span><br><span class="line"><span class="comment">//和生产者一样，创建一个接口作为通道，举例：</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyChannel</span> </span>&#123;</span><br><span class="line">    String INPUT = <span class="string">"test"</span>;</span><br><span class="line">    <span class="meta">@Input</span>(INPUT)</span><br><span class="line">    <span class="function">SubscribableChannel <span class="title">input</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>@Input注解代表这是一个输入通道，通道名需要与生产者对应才能接收消息，因此我们也定义为test；</p>
-<p>创建用于接收消息的类（或直接在启动类中编写）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line">    <span class="meta">@StreamListener</span>(MyChannel.INPUT)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Message&lt;String&gt; message)</span></span>&#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">        System.out.println(message.getPayload());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>@StreamListener注解用于监听通道，由于我们在生产者发送的是一个”Hello World”字符串，因此在这里我们用string来接收它，注意Message用的是org.springframework.messaging.Message；与生产者一样，在启动类上添加@EnableBinding(MyChannel.class)。</p>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><hr>
-<p>首先启动消费者微服务，如果你激活了RabbitMQ管理平台，那么此时就可以在上面看到test通道的相关信息了，包括Exchange和Queue</p>
-<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png" alt="图片1"></p>
-<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片2.png" alt="图片2"></p>
-<p>访问消息提供者的接口 <a href="http://localhost:8082/send在监听方会有消息" target="_blank" rel="external">http://localhost:8082/send在监听方会有消息</a></p>
-<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片3.png" alt="图片3"></p>
-<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><hr>
-<p>至此我们就完成了简单的消息发送与接收服务，是不是感觉很快就能起飞了呢？手动配置在开头我提到可以暂时不对RabbitMQ做配置，这是为了我们可以快速开发调试。但现实中我们不可能不去修改RabbitMQ的配置（哪怕只是改改密码，毕竟guest相当于裸奔），那么如何让SCS去匹配修改过的配置呢？单就YAML配置来说，有两种方式（使用@Configuration类做配置的朋友请自行对照）：</p>
-<p>直接配置spring.rabbitmq，比如我使用另外一个用户连接</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  rabbitmq:</span><br><span class="line">    username: “用户名”</span><br><span class="line">    password: ”密码“</span><br><span class="line">    virtual-host: /test</span><br></pre></td></tr></table></figure>
-<p>使用spring.cloud.stream.binders和spring.cloud.stream.bindings组合配置，同样是上面的情况：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">        test:</span><br><span class="line">          binder: rabbit</span><br><span class="line">      binders:</span><br><span class="line">        rabbit:</span><br><span class="line">          type: rabbit</span><br><span class="line">          environment:</span><br><span class="line">            spring:</span><br><span class="line">              rabbitmq:</span><br><span class="line">                username: ”用户名“</span><br><span class="line">                password: ”密码“</span><br><span class="line">                virtual-host: /test</span><br></pre></td></tr></table></figure>
-<p>乍一看感觉好麻烦呀，而且environment下面的配置不就是上面spring.rabbitmq的配置吗？</p>
-<p>实际上这种写法是有它的好处的，首先我们注意到，binders里面可以配置不同环境的binder，而通过bindings我们可以把channel和binder绑定起来。</p>
-<p>假设我这个微服务现在要连两个RabbitMQ，那么我们就可以这样配置：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">        test1:</span><br><span class="line">          binder: rabbit1</span><br><span class="line">        test2:</span><br><span class="line">          binder: rabbit2</span><br><span class="line">      binders:</span><br><span class="line">        rabbit1:</span><br><span class="line">          type: rabbit</span><br><span class="line">          environment:</span><br><span class="line">            spring:</span><br><span class="line">              rabbitmq:</span><br><span class="line">                host: <span class="number">10.1</span>.27.14</span><br><span class="line">                port: <span class="number">5672</span></span><br><span class="line">                username: </span><br><span class="line">                password: </span><br><span class="line">                virtual-host: /test1</span><br><span class="line">        rabbit2:</span><br><span class="line">          type: rabbit</span><br><span class="line">          environment:</span><br><span class="line">            spring:</span><br><span class="line">              rabbitmq:</span><br><span class="line">                host: <span class="number">10.1</span>.27.14</span><br><span class="line">                port: <span class="number">5673</span></span><br><span class="line">                username: </span><br><span class="line">                password: </span><br><span class="line">                virtual-host: /test2</span><br></pre></td></tr></table></figure>
-<p>注：spring.cloud.stream.bindings.<channelname>里面有许多有用的配置，比如destination、group等等。”</channelname></p>
-<h4 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h4><p>好了简单的消息发送与接收已经实现了</p>
-<p>如何像消息队列传递一个对象呢？</p>
-<p>上一节中我们发送的消息是一个字符串，那如果我想发送POJO怎么办呢？是直接发送和接收就可以了吗？下面我们可以试验一下：</p>
-<p>首先创建一个User POJO，然后修改生产者的send()方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/send"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">send</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setId(<span class="string">"1"</span>);</span><br><span class="line">        user.setName(<span class="string">"yhl"</span>);</span><br><span class="line">        sender.output().send(MessageBuilder.withPayload(user).build());</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"fail"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改消费者sc-stream-consumer的receive()方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@StreamListener</span>(MyChannel.INPUT)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Message&lt;User&gt; message)</span></span>&#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">        System.out.println(message.getPayload());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>访问send 结果</p>
-<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片4.png" alt="图片4"></p>
-<p>接收方接到了一个user对象</p>
-<p>如果你的User是分别在生产者和消费者中定义的，并且包路径不同，那么会报错反序列化失败。原因是SCS会默认将POJO转换成二进制发送，并且携带包路径等信息；</p>
-<p>如果生产者和消费者使用的User是同一定义，或分别定义但包路径相同，那么就不会报错。</p>
-<p>看起来略微有点不爽，那么有没有别的转换方式呢？</p>
-<p>有，而且官方还提供了很多：</p>
-<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片5.png" alt="图片5"></p>
-<p>下面我会举例用JSON字符串来传递POJO，其实只要在生产者中加上一条配置即可：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">      	test:</span><br><span class="line">          content-type: application/json</span><br></pre></td></tr></table></figure>
-<p>此时消费者sc-stream-consumer接收的消息实体实际上是字符串了，我们可以用Message<string>来测试一下：</string></p>
-<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片6.png" alt="图片6"></p>
-<p>此时收到的就是json数据了</p>
-<p>既然接收的是JSON字符串了，那Spring怎么可能不提供自动反射呢XD，再次把消息实体换回User就行了。</p>
-<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>实际生产中，我们一般都会启动多个消费者实例来做负载均衡，既然是负载均衡，我们肯定希望一条消息在一组负载均衡实例中只被其中一个消费者接收。那么SCS是如何处理这种情况的呢？</p>
-<p>假设我们现在已经启动了生产者和消费者实例各一个，然后再修改消费者的端口为8082，再启动一个消费者实例。</p>
-<p>随后发送消息测试，我们会发现两个消费者实例都接收到了消息：</p>
-<p>这显然不是我们希望的，那么现在就来分析一下为什么会出现这种情况。</p>
-<p>关键点在headers中的amqp_consumerQueue这个属性上，我们看到8081和8082的amqp_consumerQueue前面都是test.anonymous，但后面却是不一样的。这其实表示他们被分到了不同的匿名组（即group），而同一条消息会被test中的每个组都接收到。这个也很好理解，我们把group比喻成现实中的公司各部门，现在我要发一个通知，我会发给所有的部门，但同一部门中只要有一个人收到了，我就认为这个部门收到了通知。</p>
-<p>所以只要把要负载均衡的实例分在同一个group下就好了，我们给消费者添加如下配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">        test:</span><br><span class="line">          group: yhl</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片7.png" alt="图片7"></p>
-<p>有一个test.yhl 队列这时调用发送者会发现两个消费者循环接受消息。</p>
+        <p>关于redis就不多介绍了。就介绍一下spring-data-redis的使用。</p>
+<p>在用spring boot 开发项目的时候用到了redis。故对spring boot 使用redis数据库做一个简单的记录。</p>
+<p>使用spring-data-redis来对redis数据库进行操作</p>
+<p>pom中加入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="spring-boot-配置文件"><a href="#spring-boot-配置文件" class="headerlink" title="spring boot 配置文件"></a>spring boot 配置文件</h3><p>没做集群的话可以直接连接不要哨兵</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># REDIS (RedisProperties)</span></span><br><span class="line"><span class="comment"># Redis数据库索引（默认为0）</span></span><br><span class="line"><span class="string">spring.redis.database=0</span></span><br><span class="line"><span class="comment"># Redis服务器地址</span></span><br><span class="line"><span class="string">spring.redis.host=192.168.99.100</span></span><br><span class="line"><span class="comment"># Redis服务器连接端口</span></span><br><span class="line"><span class="string">spring.redis.port=16379</span></span><br><span class="line"><span class="comment"># Redis服务器连接密码（默认为空）</span></span><br><span class="line"><span class="string">spring.redis.password=</span></span><br><span class="line"><span class="comment"># 连接池最大连接数（使用负值表示没有限制）</span></span><br><span class="line"><span class="string">spring.redis.pool.max-active=8</span></span><br><span class="line"><span class="comment"># 连接池最大阻塞等待时间（使用负值表示没有限制）</span></span><br><span class="line"><span class="string">spring.redis.pool.max-wait=-1</span></span><br><span class="line"><span class="comment"># 连接池中的最大空闲连接</span></span><br><span class="line"><span class="string">spring.redis.pool.max-idle=8</span></span><br><span class="line"><span class="comment"># 连接池中的最小空闲连接</span></span><br><span class="line"><span class="string">spring.redis.pool.min-idle=0</span></span><br><span class="line"><span class="comment"># 连接超时时间（毫秒）</span></span><br><span class="line"><span class="string">spring.redis.timeout=0</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment">#配置的是redis哨兵 </span></span><br><span class="line"><span class="string">spring.redis.sentinel.master=mymaster</span> </span><br><span class="line"><span class="string">spring.redis.sentinel.nodes=192.168.99.100:16383,192.168.99.100:16384,192.168.99.100:16385</span></span><br></pre></td></tr></table></figure>
+<h3 id="redis配置文件"><a href="#redis配置文件" class="headerlink" title="redis配置文件"></a>redis配置文件</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注入 RedisConnectionFactory</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    RedisConnectionFactory redisConnectionFactory;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实例化 RedisTemplate 对象</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">functionDomainRedisTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; redisTemplate = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        initDomainRedisTemplate(redisTemplate, redisConnectionFactory);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置数据存入 redis 的序列化方式</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> redisTemplate</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> factory</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initDomainRedisTemplate</span><span class="params">(RedisTemplate&lt;String, Object&gt; redisTemplate, RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        redisTemplate.setKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        redisTemplate.setHashKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        redisTemplate.setHashValueSerializer(<span class="keyword">new</span> JdkSerializationRedisSerializer());</span><br><span class="line">        redisTemplate.setValueSerializer(<span class="keyword">new</span> JdkSerializationRedisSerializer());</span><br><span class="line">        redisTemplate.setConnectionFactory(factory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实例化 HashOperations 对象,可以使用 Hash 类型操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> redisTemplate</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> HashOperations&lt;String, String, Object&gt; <span class="title">hashOperations</span><span class="params">(RedisTemplate&lt;String, Object&gt; redisTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForHash();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实例化 ValueOperations 对象,可以使用 String 操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> redisTemplate</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ValueOperations&lt;String, Object&gt; <span class="title">valueOperations</span><span class="params">(RedisTemplate&lt;String, Object&gt; redisTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForValue();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实例化 ListOperations 对象,可以使用 List 操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> redisTemplate</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListOperations&lt;String, Object&gt; <span class="title">listOperations</span><span class="params">(RedisTemplate&lt;String, Object&gt; redisTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实例化 SetOperations 对象,可以使用 Set 操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> redisTemplate</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SetOperations&lt;String, Object&gt; <span class="title">setOperations</span><span class="params">(RedisTemplate&lt;String, Object&gt; redisTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForSet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实例化 ZSetOperations 对象,可以使用 ZSet 操作</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> redisTemplate</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ZSetOperations&lt;String, Object&gt; <span class="title">zSetOperations</span><span class="params">(RedisTemplate&lt;String, Object&gt; redisTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForZSet();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定义IRredisService接口"><a href="#定义IRredisService接口" class="headerlink" title="定义IRredisService接口"></a>定义IRredisService接口</h3><p>下面定义一个与redis交互的接口，简单的写了两个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public interface IRedisService&lt;K extends String,V&gt; &#123;</span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @param key</span><br><span class="line">     * @param value</span><br><span class="line">     */</span><br><span class="line">    void set(K key, V value);</span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @param key</span><br><span class="line">     * @param value</span><br><span class="line">     * @param timeout 设置过时时间</span><br><span class="line">     * @param unit</span><br><span class="line">     */</span><br><span class="line">    void set(K key, V value, long timeout, TimeUnit unit);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接口实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IRedisServiceImpl</span> <span class="keyword">implements</span> <span class="title">IRedisService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate&lt;String,Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(String key, Object value)</span> </span>&#123;</span><br><span class="line">        redisTemplate.opsForValue().set(key,value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(String key, Object value, <span class="keyword">long</span> timeout, TimeUnit unit)</span> </span>&#123;</span><br><span class="line">        redisTemplate.opsForValue().set(key,value,timeout,unit);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h4 id="保存字符串"><a href="#保存字符串" class="headerlink" title="保存字符串"></a>保存字符串</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	<span class="comment">// 保存字符串</span></span><br><span class="line">	iRedisService.set(<span class="string">"aaa"</span>, <span class="string">"111"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2017/11/20/spring-boot使用redis/redis.PNG" alt="redis"></p>
+<h4 id="保存对象"><a href="#保存对象" class="headerlink" title="保存对象"></a>保存对象</h4><p>创建对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">	iRedisService.set(<span class="string">"bcv"</span>,<span class="keyword">new</span> User());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2017/11/20/spring-boot使用redis/redis1.PNG" alt="redis1"></p>
+<p>成功。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>spring-data-redis 中封装了许多对redis的操作。上述只是简单的入门。</p>
 
       
     </div>
@@ -544,7 +491,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/" title="spring-cloud-stream-rabbitmq">http://ybigbang.github.io/2017/11/14/spring-cloud-stream-rabbitmq/</a>
+    <a href="http://ybigbang.github.io/2017/11/20/spring-boot使用redis/" title="spring boot使用redis">http://ybigbang.github.io/2017/11/20/spring-boot使用redis/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -559,9 +506,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/spring/" rel="tag"># spring</a>
+            <a href="/tags/redis/" rel="tag"># redis</a>
           
-            <a href="/tags/rabbitmq/" rel="tag"># rabbitmq</a>
+            <a href="/tags/spring-boot/" rel="tag"># spring boot</a>
           
         </div>
       
@@ -574,8 +521,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/14/SpringCloudStream/" rel="next" title="SpringCloudStream">
-                <i class="fa fa-chevron-left"></i> SpringCloudStream
+              <a href="/2017/11/19/spring-clpoud-系列之Eureka/" rel="next" title="spring clpoud 系列之Eureka">
+                <i class="fa fa-chevron-left"></i> spring clpoud 系列之Eureka
               </a>
             
           </div>
@@ -584,8 +531,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/15/docker搭建redis集群/" rel="prev" title="docker搭建redis集群">
-                docker搭建redis集群 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/11/20/restful-设计总结/" rel="prev" title="restful 设计总结">
+                restful 设计总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -739,7 +686,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-cloud-stream-使用-rabbitmq"><span class="nav-number">1.</span> <span class="nav-text">Spring cloud stream 使用 rabbitmq</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#入门"><span class="nav-number">1.2.</span> <span class="nav-text">入门</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者"><span class="nav-number">1.3.</span> <span class="nav-text">生产者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费者"><span class="nav-number">1.4.</span> <span class="nav-text">消费者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">1.5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改配置"><span class="nav-number">1.6.</span> <span class="nav-text">修改配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进阶"><span class="nav-number">1.7.</span> <span class="nav-text">进阶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负载均衡"><span class="nav-number">1.8.</span> <span class="nav-text">负载均衡</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-boot-配置文件"><span class="nav-number">1.</span> <span class="nav-text">spring boot 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis配置文件"><span class="nav-number">2.</span> <span class="nav-text">redis配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义IRredisService接口"><span class="nav-number">3.</span> <span class="nav-text">定义IRredisService接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#保存字符串"><span class="nav-number">4.1.</span> <span class="nav-text">保存字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保存对象"><span class="nav-number">4.2.</span> <span class="nav-text">保存对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
