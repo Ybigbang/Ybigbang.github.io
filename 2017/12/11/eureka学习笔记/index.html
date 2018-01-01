@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spring cloud," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景介绍Eureka是Netflix开源的一款提供服务注册和发现的产品。 其官方文档中对自己的定义是： Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of lo">
+<meta name="keywords" content="spring cloud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="eureka学习笔记">
+<meta property="og:url" content="http://yanhailin.com/2017/12/11/eureka学习笔记/index.html">
+<meta property="og:site_name" content="颜如玉">
+<meta property="og:description" content="背景介绍Eureka是Netflix开源的一款提供服务注册和发现的产品。 其官方文档中对自己的定义是： Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of lo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-546153a457be425355449c84c1dfaf58_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-6d76023045bbd20c87b415d3dd7a839c_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-e851cc82e2ac44b394ccdae6e2704841_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-850dea785c5e9082d8da1b658971c614_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/eureka学习笔记//v2-f40258b5ee35195474d6951883fdf6bf_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-d533e8dfd12133e11f48cdcddad8c8a4_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-705e567def018db84259ffa26843f6e9_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-61d172752ababe9dc0da396ca6d2f66e_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-b5fa91dff2ba2b81217d98ba36529ec7_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-7ae37a84f2fb18c8cd70e2a553cc298c_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-c96fe6fecc5d5092598b2eec9243a7a8_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-23b86ab1bdbc7ec1d4ab55e7e104a35f_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-fe8e8a5bce6670204da9c11cc4d8a1a0_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-091e278984cfdb5fc123b22d3d20727d_hd.jpg">
+<meta property="og:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-077118a0d6fb59c75742dbc6accfebaf_hd.jpg">
+<meta property="og:updated_time" content="2018-01-01T12:41:11.681Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="eureka学习笔记">
+<meta name="twitter:description" content="背景介绍Eureka是Netflix开源的一款提供服务注册和发现的产品。 其官方文档中对自己的定义是： Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of lo">
+<meta name="twitter:image" content="http://yanhailin.com/2017/12/11/eureka学习笔记/v2-546153a457be425355449c84c1dfaf58_hd.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '严海林'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yanhailin.com/2017/12/11/eureka学习笔记/"/>
+
+
+
+
+
+  <title>eureka学习笔记 | 颜如玉</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Ybigbang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">颜如玉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每天爬一坑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yanhailin.com/2017/12/11/eureka学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="严海林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myTag.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="颜如玉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">eureka学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-11T20:29:13+08:00">
+                2017-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/11/eureka学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/12/11/eureka学习笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,483
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>Eureka是Netflix开源的一款提供服务注册和发现的产品。</p>
+<p>其官方文档中对自己的定义是：</p>
+<p>Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of load balancing and failover of middle-tier servers. We call this service, the Eureka Server. Eureka also comes with a Java-based client component,the Eureka Client, which makes interactions with the service much easier. The client also has a built-in load balancer that does basic round-robin load balancing.</p>
+<h2 id="Why-Eureka"><a href="#Why-Eureka" class="headerlink" title="Why Eureka?"></a><strong>Why Eureka?</strong></h2><p>那么为什么我们在项目中使用了Eureka呢？</p>
+<p><strong>1）它提供了完整的Service Registry和Service Discovery实现</strong></p>
+<p>首先是提供了完整的实现，并且也经受住了Netflix自己的生产环境考验，相对使用起来会比较省心。</p>
+<p><strong>2）和Spring Cloud无缝集成</strong></p>
+<p>我们的项目本身就使用了Spring Cloud和Spring Boot，同时Spring Cloud还有一套非常完善的开源代码来整合Eureka，所以使用起来非常方便。</p>
+<p>另外，Eureka还支持在我们应用自身的容器中启动，也就是说我们的应用启动完之后，既充当了Eureka的角色，同时也是服务的提供者。这样就极大的提高了服务的可用性。</p>
+<p><strong>3）Open Source</strong></p>
+<p>最后一点是开源，由于代码是开源的，所以非常便于我们了解它的实现原理和排查问题。</p>
+<h2 id="Dive-into-Eureka"><a href="#Dive-into-Eureka" class="headerlink" title="Dive into Eureka"></a><strong>Dive into Eureka</strong></h2><p>相信大家看到这里，已经对Eureka有了一个初步的认识，接下来我们就来深入了解下它吧~</p>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><h4 id="Basic-Architecture"><a href="#Basic-Architecture" class="headerlink" title="Basic Architecture"></a>Basic Architecture</h4><p><img src="/2017/12/11/eureka学习笔记/v2-546153a457be425355449c84c1dfaf58_hd.jpg" alt="img"></p>
+<p>图1</p>
+<p>上图简要描述了Eureka的基本架构，由3个角色组成：</p>
+<p><strong>Eureka Server</strong></p>
+<p>提供服务注册和发现</p>
+<p><strong>Service Provider</strong></p>
+<p>服务提供方</p>
+<p>将自身服务注册到Eureka，从而使服务消费方能够找到</p>
+<p><strong>Service Consumer</strong></p>
+<p>服务消费方</p>
+<p>从Eureka获取注册服务列表，从而能够消费服务</p>
+<p>需要注意的是，上图中的3个角色都是逻辑角色。在实际运行中，这几个角色甚至可以是同一个实例，比如在我们项目中，Eureka Server和Service Provider就是同一个JVM进程。</p>
+<h4 id="More-in-depth"><a href="#More-in-depth" class="headerlink" title="More in depth"></a>More in depth</h4><p><img src="/2017/12/11/eureka学习笔记/v2-6d76023045bbd20c87b415d3dd7a839c_hd.jpg" alt="img"></p>
+<p>图2</p>
+<p>上图更进一步的展示了3个角色之间的交互。</p>
+<ol>
+<li>Service Provider会向Eureka Server做Register（服务注册）、Renew（服务续约）、Cancel（服务下线）等操作。</li>
+<li>Eureka Server之间会做注册服务的同步，从而保证状态一致</li>
+<li>Service Consumer会向Eureka Server获取注册服务列表，并消费服务</li>
+</ol>
+<h3 id="Eureka-Server实现细节"><a href="#Eureka-Server实现细节" class="headerlink" title="Eureka Server实现细节"></a>Eureka Server实现细节</h3><p>看了前面的demo，我们已经初步领略到了Spring Cloud和Eureka的强大之处，通过短短几行配置就实现了服务注册和发现！</p>
+<p>相信大家一定想了解Eureka是如何实现的吧，所以接下来我们继续Dive！首先来看下Eureka Server的几个对外接口实现。</p>
+<h4 id="Register"><a href="#Register" class="headerlink" title="Register"></a>Register</h4><p>首先来看Register（服务注册），这个接口会在Service Provider启动时被调用来实现服务注册。同时，当Service Provider的服务状态发生变化时（如自身检测认为Down的时候），也会调用来更新服务状态。</p>
+<p>接口实现比较简单，如下图所示。</p>
+<ol>
+<li>ApplicationResource类接收Http服务请求，调用PeerAwareInstanceRegistryImpl的register方法</li>
+<li>PeerAwareInstanceRegistryImpl完成服务注册后，调用replicateToPeers向其它Eureka Server节点（Peer）做状态同步（异步操作）</li>
+</ol>
+<p><img src="/2017/12/11/eureka学习笔记/v2-e851cc82e2ac44b394ccdae6e2704841_hd.jpg" alt="img"></p>
+<p>图5</p>
+<p>注册的服务列表保存在一个嵌套的hash map中：</p>
+<ul>
+<li>第一层hash map的key是app name，也就是应用名字</li>
+<li>第二层hash map的key是instance name，也就是实例名字</li>
+</ul>
+<h4 id="Renew"><a href="#Renew" class="headerlink" title="Renew"></a>Renew</h4><p>Renew（服务续约）操作由Service Provider定期调用，类似于heartbeat。主要是用来告诉Eureka Server Service Provider还活着，避免服务被剔除掉。接口实现如下图所示。</p>
+<p>可以看到，接口实现方式和register基本一致：首先更新自身状态，再同步到其它Peer。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-850dea785c5e9082d8da1b658971c614_hd.jpg" alt="img"></p>
+<p>图6</p>
+<h4 id="Cancel"><a href="#Cancel" class="headerlink" title="Cancel"></a>Cancel</h4><p>Cancel（服务下线）一般在Service Provider shut down的时候调用，用来把自身的服务从Eureka Server中删除，以防客户端调用不存在的服务。接口实现如下图所示。</p>
+<p><img src="eureka学习笔记//v2-f40258b5ee35195474d6951883fdf6bf_hd.jpg" alt="img"></p>
+<p>图7</p>
+<h4 id="Fetch-Registries"><a href="#Fetch-Registries" class="headerlink" title="Fetch Registries"></a>Fetch Registries</h4><p>Fetch Registries由Service Consumer调用，用来获取Eureka Server上注册的服务。</p>
+<p>为了提高性能，服务列表在Eureka Server会缓存一份，同时每30秒更新一次。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-d533e8dfd12133e11f48cdcddad8c8a4_hd.jpg" alt="img"></p>
+<p>图8</p>
+<h4 id="Eviction"><a href="#Eviction" class="headerlink" title="Eviction"></a>Eviction</h4><p>Eviction（失效服务剔除）用来定期（默认为每60秒）在Eureka Server检测失效的服务，检测标准就是超过一定时间没有Renew的服务。</p>
+<p>默认失效时间为90秒，也就是如果有服务超过90秒没有向Eureka Server发起Renew请求的话，就会被当做失效服务剔除掉。</p>
+<p>失效时间可以通过eureka.instance.leaseExpirationDurationInSeconds进行配置，定期扫描时间可以通过eureka.server.evictionIntervalTimerInMs进行配置。</p>
+<p>接口实现逻辑见下图：</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-705e567def018db84259ffa26843f6e9_hd.jpg" alt="img"></p>
+<p>图9</p>
+<h4 id="How-Peer-Replicates"><a href="#How-Peer-Replicates" class="headerlink" title="How Peer Replicates"></a>How Peer Replicates</h4><p>在前面的Register、Renew、Cancel接口实现中，我们看到了都会有replicateToPeers操作，这个就是用来做Peer之间的状态同步。</p>
+<p>通过这种方式，Service Provider只需要通知到任意一个Eureka Server后就能保证状态会在所有的Eureka Server中得到更新。</p>
+<p>具体实现方式其实很简单，就是接收到Service Provider请求的Eureka Server，把请求再次转发到其它的Eureka Server，调用同样的接口，传入同样的参数，除了会在header中标记isReplication=true，从而避免重复的replicate。</p>
+<p>Peer之间的状态是采用异步的方式同步的，所以不保证节点间的状态一定是一致的，不过基本能保证最终状态是一致的。</p>
+<p>结合服务发现的场景，实际上也并不需要节点间的状态强一致。在一段时间内（比如30秒），节点A比节点B多一个服务实例或少一个服务实例，在业务上也是完全可以接受的（Service Consumer侧一般也会实现错误重试和负载均衡机制）。</p>
+<p>所以按照CAP理论，Eureka的选择就是放弃C，选择AP。</p>
+<h4 id="How-Peer-Nodes-are-Discovered"><a href="#How-Peer-Nodes-are-Discovered" class="headerlink" title="How Peer Nodes are Discovered"></a>How Peer Nodes are Discovered</h4><p>那大家可能会有疑问，Eureka Server是怎么知道有多少Peer的呢？</p>
+<p>Eureka Server在启动后会调用EurekaClientConfig.getEurekaServerServiceUrls来获取所有的Peer节点，并且会定期更新。定期更新频率可以通过eureka.server.peerEurekaNodesUpdateIntervalMs配置。</p>
+<p>这个方法的默认实现是从配置文件读取，所以如果Eureka Server节点相对固定的话，可以通过在配置文件中配置来实现。</p>
+<p>如果希望能更灵活的控制Eureka Server节点，比如动态扩容/缩容，那么可以override getEurekaServerServiceUrls方法，提供自己的实现，比如我们的项目中会通过数据库读取Eureka Server列表。</p>
+<p>具体实现如下图所示：</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-61d172752ababe9dc0da396ca6d2f66e_hd.jpg" alt="img"></p>
+<p>图10</p>
+<h4 id="How-New-Peer-Initializes"><a href="#How-New-Peer-Initializes" class="headerlink" title="How New Peer Initializes"></a>How New Peer Initializes</h4><p>最后再来看一下一个新的Eureka Server节点加进来，或者Eureka Server重启后，如何来做初始化，从而能够正常提供服务。</p>
+<p>具体实现如下图所示，简而言之就是启动时把自己当做是Service Consumer从其它Peer Eureka获取所有服务的注册信息。然后对每个服务，在自己这里执行Register，isReplication=true，从而完成初始化。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-b5fa91dff2ba2b81217d98ba36529ec7_hd.jpg" alt="img"></p>
+<p>图11</p>
+<h3 id="Service-Provider实现细节"><a href="#Service-Provider实现细节" class="headerlink" title="Service Provider实现细节"></a>Service Provider实现细节</h3><p>现在来看下Service Provider的实现细节，主要就是Register、Renew、Cancel这3个操作。</p>
+<h4 id="Register-1"><a href="#Register-1" class="headerlink" title="Register"></a>Register</h4><p>Service Provider要对外提供服务，一个很重要的步骤就是把自己注册到Eureka Server上。</p>
+<p>这部分的实现比较简单，只需要在启动时和实例状态变化时调用Eureka Server的接口注册即可。需要注意的是，需要确保配置eureka.client.registerWithEureka=true。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-7ae37a84f2fb18c8cd70e2a553cc298c_hd.jpg" alt="img"></p>
+<p>图12</p>
+<h4 id="Renew-1"><a href="#Renew-1" class="headerlink" title="Renew"></a>Renew</h4><p>Renew操作会在Service Provider端定期发起，用来通知Eureka Server自己还活着。 这里有两个比较重要的配置需要注意一下：</p>
+<ol>
+<li>instance.leaseRenewalIntervalInSeconds</li>
+</ol>
+<p>Renew频率。默认是30秒，也就是每30秒会向Eureka Server发起Renew操作。</p>
+<ol>
+<li>instance.leaseExpirationDurationInSeconds</li>
+</ol>
+<p>服务失效时间。默认是90秒，也就是如果Eureka Server在90秒内没有接收到来自Service Provider的Renew操作，就会把Service Provider剔除。</p>
+<p>具体实现如下：</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-c96fe6fecc5d5092598b2eec9243a7a8_hd.jpg" alt="img"></p>
+<p>图13</p>
+<h4 id="Cancel-1"><a href="#Cancel-1" class="headerlink" title="Cancel"></a>Cancel</h4><p>在Service Provider服务shut down的时候，需要及时通知Eureka Server把自己剔除，从而避免客户端调用已经下线的服务。</p>
+<p>逻辑本身比较简单，通过对方法标记@PreDestroy，从而在服务shut down的时候会被触发。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-23b86ab1bdbc7ec1d4ab55e7e104a35f_hd.jpg" alt="img"></p>
+<p>图14</p>
+<h4 id="How-Eureka-Servers-are-Discovered"><a href="#How-Eureka-Servers-are-Discovered" class="headerlink" title="How Eureka Servers are Discovered"></a>How Eureka Servers are Discovered</h4><p>这里大家疑问又来了，Service Provider是怎么知道Eureka Server的地址呢？</p>
+<p>其实这部分的主体逻辑和How Peer Nodes are Discovered几乎是一样的。</p>
+<p>也是默认从配置文件读取，如果需要更灵活的控制，可以通过override getEurekaServerServiceUrls方法来提供自己的实现。定期更新频率可以通过eureka.client.eurekaServiceUrlPollIntervalSeconds配置。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-fe8e8a5bce6670204da9c11cc4d8a1a0_hd.jpg" alt="img"></p>
+<p>图15</p>
+<h3 id="Service-Consumer实现细节"><a href="#Service-Consumer实现细节" class="headerlink" title="Service Consumer实现细节"></a>Service Consumer实现细节</h3><p>Service Consumer这块的实现相对就简单一些，因为它只涉及到从Eureka Server获取服务列表和更新服务列表。</p>
+<h4 id="Fetch-Service-Registries"><a href="#Fetch-Service-Registries" class="headerlink" title="Fetch Service Registries"></a>Fetch Service Registries</h4><p>Service Consumer在启动时会从Eureka Server获取所有服务列表，并在本地缓存。需要注意的是，需要确保配置eureka.client.shouldFetchRegistry=true。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-091e278984cfdb5fc123b22d3d20727d_hd.jpg" alt="img"></p>
+<p>图16</p>
+<h4 id="Update-Service-Registries"><a href="#Update-Service-Registries" class="headerlink" title="Update Service Registries"></a>Update Service Registries</h4><p>由于在本地有一份缓存，所以需要定期更新，定期更新频率可以通过eureka.client.registryFetchIntervalSeconds配置。</p>
+<p><img src="/2017/12/11/eureka学习笔记/v2-077118a0d6fb59c75742dbc6accfebaf_hd.jpg" alt="img"></p>
+<p>图17</p>
+<h4 id="How-Eureka-Servers-are-Discovered-1"><a href="#How-Eureka-Servers-are-Discovered-1" class="headerlink" title="How Eureka Servers are Discovered"></a>How Eureka Servers are Discovered</h4><p>Service Consumer和Service Provider一样，也有一个如何知道Eureka Server地址的问题。</p>
+<p>其实由于Service Consumer和Service Provider本质上是同一个Eureka客户端，所以这部分逻辑是一样的，这里就不再赘述了。</p>
+<p>eureka 常用配置</p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务注册中心配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka.   server.EurekaServerConfigBean</td>
+</tr>
+<tr>
+<td>eureka.server.enable-self-preservation</td>
+<td>false</td>
+<td>关闭注册中心的保护机制，Eureka 会统计15分钟之内心跳失败的比例低于85%将会触发保护机制，不剔除服务提供者，如果关闭服务注册中心将不可用的实例正确剔除</td>
+</tr>
+<tr>
+<td>服务实例类配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka. EurekaInstanceConfigBean</td>
+</tr>
+<tr>
+<td>eureka.instance.prefer-ip-address</td>
+<td>false</td>
+<td>不使用主机名来定义注册中心的地址，而使用IP地址的形式，如果设置了eureka.instance.ip-address 属性，则使用该属性配置的IP，否则自动获取除环路IP外的第一个IP地址</td>
+</tr>
+<tr>
+<td>eureka.instance.ip-address</td>
+<td></td>
+<td>IP地址</td>
+</tr>
+<tr>
+<td>eureka.instance.hostname</td>
+<td></td>
+<td>设置当前实例的主机名称</td>
+</tr>
+<tr>
+<td>eureka.instance.appname</td>
+<td></td>
+<td>服务名，默认取 spring.application.name 配置值，如果没有则为 unknown</td>
+</tr>
+<tr>
+<td>eureka.instance.lease-renewal-interval-in-seconds</td>
+<td>30</td>
+<td>定义服务续约任务（心跳）的调用间隔，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.instance.lease-expiration-duration-in-seconds</td>
+<td>90</td>
+<td>定义服务失效的时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.instance.status-page-url-path</td>
+<td>/info</td>
+<td>状态页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
+</tr>
+<tr>
+<td>eureka.instance.status-page-url</td>
+<td></td>
+<td>状态页面的URL，绝对路径</td>
+</tr>
+<tr>
+<td>eureka.instance.health-check-url-path</td>
+<td>/health</td>
+<td>健康检查页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
+</tr>
+<tr>
+<td>eureka.instance.health-check-url</td>
+<td></td>
+<td>健康检查页面的URL，绝对路径</td>
+</tr>
+<tr>
+<td>服务注册类配置</td>
+<td></td>
+<td>Bean类：org.springframework.cloud.netflix.eureka. EurekaClientConfigBean</td>
+</tr>
+<tr>
+<td>eureka.client.service-url.</td>
+<td></td>
+<td>指定服务注册中心地址，类型为 HashMap，并设置有一组默认值，默认的Key为 defaultZone；默认的Value为<a href="http://localhost:8761/eureka" target="_blank" rel="external">http://localhost:8761/eureka</a> ，如果服务注册中心为高可用集群时，多个注册中心地址以逗号分隔。如果服务注册中心加入了安全验证，这里配置的地址格式为：<a href="http://%3cusername%3e:%3cpassword%3e@localhost:8761/eureka" target="_blank" rel="external">http://:@localhost:8761/eureka</a>其中 <username> 为安全校验的用户名；<password> 为该用户的密码</password></username></td>
+</tr>
+<tr>
+<td>eureka.client.fetch-registery</td>
+<td>true</td>
+<td>检索服务</td>
+</tr>
+<tr>
+<td>eureka.client.registery-fetch-interval-seconds</td>
+<td>30</td>
+<td>从Eureka服务器端获取注册信息的间隔时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.register-with-eureka</td>
+<td>true</td>
+<td>启动服务注册</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-connect-timeout-seconds</td>
+<td>5</td>
+<td>连接 Eureka Server 的超时时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-read-timeout-seconds</td>
+<td>8</td>
+<td>读取 Eureka Server 信息的超时时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.filter-only-up-instances</td>
+<td>true</td>
+<td>获取实例时是否过滤，只保留UP状态的实例</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-connection-idle-timeout-seconds</td>
+<td>30</td>
+<td>Eureka 服务端连接空闲关闭时间，单位：秒</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-total-connections</td>
+<td>200</td>
+<td>从Eureka 客户端到所有Eureka服务端的连接总数</td>
+</tr>
+<tr>
+<td>eureka.client.eureka-server-total-connections-per-host</td>
+<td>50</td>
+<td>从Eureka客户端到每个Eureka服务主机的连接总数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h2 id="如何解决Eureka注册服务慢的问题"><a href="#如何解决Eureka注册服务慢的问题" class="headerlink" title="如何解决Eureka注册服务慢的问题"></a>如何解决Eureka注册服务慢的问题</h2><p>使用配置项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eureka.instance.leaseRenewalIntervalInSeconds</span><br></pre></td></tr></table></figure>
+<h2 id="Eureka的自我保护模式"><a href="#Eureka的自我保护模式" class="headerlink" title="Eureka的自我保护模式"></a>Eureka的自我保护模式</h2><p>如果在Eureka Server的首页看到以下这段提示，则说明Eureka已经进入了保护模式。</p>
+<p><code>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY&#39;RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</code></p>
+<p>保护模式主要用于一组客户端和Eureka Server之间存在网络分区场景下的保护。一旦进入保护模式，Eureka Server将会尝试保护其服务注册表中的信息，不再删除服务注册表中的数据（也就是不会注销任何微服务）。</p>
+<h2 id="如何解决Eureka-Server不踢出已关停的节点的问题"><a href="#如何解决Eureka-Server不踢出已关停的节点的问题" class="headerlink" title="如何解决Eureka Server不踢出已关停的节点的问题"></a>如何解决Eureka Server不踢出已关停的节点的问题</h2><p>在开发过程中，我们常常希望Eureka Server能够迅速有效地踢出已关停的节点，但是新手由于Eureka自我保护模式，以及心跳周期长的原因，常常会遇到Eureka Server不踢出已关停的节点的问题。解决方法如下：</p>
+<p>(1) Eureka Server端：配置关闭自我保护，并按需配置Eureka Server清理无效节点的时间间隔。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">eureka.server.enable-self-preservation</span>			<span class="comment"># 设为false，关闭自我保护</span></span><br><span class="line"><span class="string">eureka.server.eviction-interval-timer-in-ms</span>     <span class="comment"># 清理间隔（单位毫秒，默认是60*1000）</span></span><br></pre></td></tr></table></figure>
+<p>(2) Eureka Client端：配置开启健康检查，并按需配置续约更新时间和到期时间。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">eureka.client.healthcheck.enabled</span>			<span class="comment"># 开启健康检查（需要spring-boot-starter-actuator依赖）</span></span><br><span class="line"><span class="string">eureka.instance.lease-renewal-interval-in-seconds</span>		<span class="comment"># 续约更新时间间隔（默认30秒）</span></span><br><span class="line"><span class="string">eureka.instance.lease-expiration-duration-in-seconds</span> 	<span class="comment"># 续约到期时间（默认90秒）</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    严海林
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yanhailin.com/2017/12/11/eureka学习笔记/" title="eureka学习笔记">http://yanhailin.com/2017/12/11/eureka学习笔记/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring-cloud/" rel="tag"># spring cloud</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/10/rabbitmq详解/" rel="next" title="rabbitmq详解">
+                <i class="fa fa-chevron-left"></i> rabbitmq详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/12/docker构建rabbitmq集群/" rel="prev" title="docker构建rabbitmq集群">
+                docker构建rabbitmq集群 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/myTag.jpg"
+                alt="严海林" />
+            
+              <p class="site-author-name" itemprop="name">严海林</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Ybigbang" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景介绍"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-Eureka"><span class="nav-number">2.</span> <span class="nav-text">Why Eureka?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dive-into-Eureka"><span class="nav-number">3.</span> <span class="nav-text">Dive into Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">3.1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Basic-Architecture"><span class="nav-number">3.1.1.</span> <span class="nav-text">Basic Architecture</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#More-in-depth"><span class="nav-number">3.1.2.</span> <span class="nav-text">More in depth</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-Server实现细节"><span class="nav-number">3.2.</span> <span class="nav-text">Eureka Server实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Register"><span class="nav-number">3.2.1.</span> <span class="nav-text">Register</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Renew"><span class="nav-number">3.2.2.</span> <span class="nav-text">Renew</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cancel"><span class="nav-number">3.2.3.</span> <span class="nav-text">Cancel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fetch-Registries"><span class="nav-number">3.2.4.</span> <span class="nav-text">Fetch Registries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Eviction"><span class="nav-number">3.2.5.</span> <span class="nav-text">Eviction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-Peer-Replicates"><span class="nav-number">3.2.6.</span> <span class="nav-text">How Peer Replicates</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-Peer-Nodes-are-Discovered"><span class="nav-number">3.2.7.</span> <span class="nav-text">How Peer Nodes are Discovered</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-New-Peer-Initializes"><span class="nav-number">3.2.8.</span> <span class="nav-text">How New Peer Initializes</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service-Provider实现细节"><span class="nav-number">3.3.</span> <span class="nav-text">Service Provider实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Register-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">Register</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Renew-1"><span class="nav-number">3.3.2.</span> <span class="nav-text">Renew</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cancel-1"><span class="nav-number">3.3.3.</span> <span class="nav-text">Cancel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-Eureka-Servers-are-Discovered"><span class="nav-number">3.3.4.</span> <span class="nav-text">How Eureka Servers are Discovered</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service-Consumer实现细节"><span class="nav-number">3.4.</span> <span class="nav-text">Service Consumer实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Fetch-Service-Registries"><span class="nav-number">3.4.1.</span> <span class="nav-text">Fetch Service Registries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Update-Service-Registries"><span class="nav-number">3.4.2.</span> <span class="nav-text">Update Service Registries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-Eureka-Servers-are-Discovered-1"><span class="nav-number">3.4.3.</span> <span class="nav-text">How Eureka Servers are Discovered</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题"><span class="nav-number">3.5.</span> <span class="nav-text">常见问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何解决Eureka注册服务慢的问题"><span class="nav-number">4.</span> <span class="nav-text">如何解决Eureka注册服务慢的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Eureka的自我保护模式"><span class="nav-number">5.</span> <span class="nav-text">Eureka的自我保护模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何解决Eureka-Server不踢出已关停的节点的问题"><span class="nav-number">6.</span> <span class="nav-text">如何解决Eureka Server不踢出已关停的节点的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">严海林</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Ybigbang',
+            repo: 'Ybigbang.github.io',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'b5a0b1528c750f2d152a3a964cff5e6049d8a439',
+            
+                client_id: '3e766e5da0fbd4b3ce4e'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+   <script color="211,0,255" zIndex="-1" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
+</body>
+</html>

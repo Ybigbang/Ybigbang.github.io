@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spring cloud," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="hystrix 配置Execution(控制HystrixCommand.run()的执行策略)以下属性控制如何HystrixCommand.run())执行。 execution.isolation.strategy默认值：THREAD  该属性指示HystrixCommand.run()执行哪个隔离策略，以下两个选项之一：  THREAD - 它在单独的线程上执行，并发请求受线程池中线程数的限">
+<meta name="keywords" content="spring cloud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring-cloud-hystrix">
+<meta property="og:url" content="http://yanhailin.com/2017/12/20/spring-cloud-hystrix/index.html">
+<meta property="og:site_name" content="颜如玉">
+<meta property="og:description" content="hystrix 配置Execution(控制HystrixCommand.run()的执行策略)以下属性控制如何HystrixCommand.run())执行。 execution.isolation.strategy默认值：THREAD  该属性指示HystrixCommand.run()执行哪个隔离策略，以下两个选项之一：  THREAD - 它在单独的线程上执行，并发请求受线程池中线程数的限">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/wiki/Netflix/Hystrix/images/isolation-options-1280.png">
+<meta property="og:image" content="https://github.com/Netflix/Hystrix/wiki/images/rolling-stats-640.png">
+<meta property="og:image" content="https://github.com/Netflix/Hystrix/wiki/images/thread-configuration-640.png">
+<meta property="og:updated_time" content="2018-01-01T13:17:27.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring-cloud-hystrix">
+<meta name="twitter:description" content="hystrix 配置Execution(控制HystrixCommand.run()的执行策略)以下属性控制如何HystrixCommand.run())执行。 execution.isolation.strategy默认值：THREAD  该属性指示HystrixCommand.run()执行哪个隔离策略，以下两个选项之一：  THREAD - 它在单独的线程上执行，并发请求受线程池中线程数的限">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wiki/Netflix/Hystrix/images/isolation-options-1280.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '严海林'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yanhailin.com/2017/12/20/spring-cloud-hystrix/"/>
+
+
+
+
+
+  <title>spring-cloud-hystrix | 颜如玉</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Ybigbang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">颜如玉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每天爬一坑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yanhailin.com/2017/12/20/spring-cloud-hystrix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="严海林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myTag.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="颜如玉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">spring-cloud-hystrix</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-20T21:01:46+08:00">
+                2017-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/20/spring-cloud-hystrix/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/12/20/spring-cloud-hystrix/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,103
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="hystrix-配置"><a href="#hystrix-配置" class="headerlink" title="hystrix 配置"></a>hystrix 配置</h3><h3 id="Execution-控制HystrixCommand-run-的执行策略"><a href="#Execution-控制HystrixCommand-run-的执行策略" class="headerlink" title="Execution(控制HystrixCommand.run()的执行策略)"></a>Execution(控制HystrixCommand.run()的执行策略)</h3><p>以下属性控制如何<a href="http://netflix.github.io/Hystrix/javadoc/com/netflix/hystrix/HystrixCommand.html#run(" target="_blank" rel="external"><code>HystrixCommand.run()</code></a>)执行。</p>
+<h4 id="execution-isolation-strategy"><a href="#execution-isolation-strategy" class="headerlink" title="execution.isolation.strategy"></a>execution.isolation.strategy</h4><p>默认值：<code>THREAD</code> </p>
+<p>该属性指示<code>HystrixCommand.run()</code>执行哪个隔离策略，以下两个选项之一：</p>
+<ul>
+<li><p><code>THREAD</code> - 它在单独的线程上执行，并发请求受线程池中线程数的限制</p>
+</li>
+<li><p><code>SEMAPHORE</code> - 它在调用线程上执行，并发请求受信号计数的限制</p>
+<p>​</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th style="text-align:left"><code>THREAD</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可能的值</td>
+<td style="text-align:left"><code>THREAD</code>, <code>SEMAPHORE</code></td>
+</tr>
+<tr>
+<td>默认属性</td>
+<td style="text-align:left"><code>hystrix.command.default.execution.isolation.strategy</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td style="text-align:left"><code>hystrix.command.HystrixCommandKey.execution.isolation.strategy</code></td>
+</tr>
+</tbody>
+</table>
+<h5 id="线程或信号量"><a href="#线程或信号量" class="headerlink" title="线程或信号量"></a>线程或信号量</h5><p>建议的设置是<code>HystrixCommand</code>使用线程隔离（<code>THREAD</code>）和<code>HystrixObservableCommand</code>使用信号量隔离（<code>SEMAPHORE</code>）来运行。</p>
+<p><img src="https://raw.githubusercontent.com/wiki/Netflix/Hystrix/images/isolation-options-1280.png" alt="img"></p>
+<h4 id="execution-isolation-thread-timeoutInMilliseconds"><a href="#execution-isolation-thread-timeoutInMilliseconds" class="headerlink" title="execution.isolation.thread.timeoutInMilliseconds"></a>execution.isolation.thread.timeoutInMilliseconds</h4><p>该属性设置以毫秒为单位的时间，设置调用超时时间。超时Hystrix标记<code>HystrixCommand</code>为TIMEOUT，并执行回退逻辑。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">默认值</th>
+<th style="text-align:left"><code>1000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">默认属性</td>
+<td style="text-align:left"><code>hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds</code></td>
+</tr>
+<tr>
+<td style="text-align:left">实例属性</td>
+<td style="text-align:left"><code>hystrix.command.*HystrixCommandKey*.execution.isolation.thread.timeoutInMilliseconds</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="execution-timeout-enabled"><a href="#execution-timeout-enabled" class="headerlink" title="execution.timeout.enabled"></a>execution.timeout.enabled</h4><p>该属性指示<code>HystrixCommand.run()</code>执行是否应该有超时。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>true</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.execution.timeout.enabled</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.execution.timeout.enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="execution-isolation-thread-interruptOnTimeout"><a href="#execution-isolation-thread-interruptOnTimeout" class="headerlink" title="execution.isolation.thread.interruptOnTimeout"></a>execution.isolation.thread.interruptOnTimeout</h4><p>该属性指示<code>HystrixCommand.run()</code>在发生超时时是否应该中断执行。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>false</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.execution.isolation.thread.interruptOnCancel</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.execution.isolation.thread.interruptOnCancel</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="execution-isolation-thread-interruptOnCancel"><a href="#execution-isolation-thread-interruptOnCancel" class="headerlink" title="execution.isolation.thread.interruptOnCancel"></a>execution.isolation.thread.interruptOnCancel</h4><p>该属性指示<code>HystrixCommand.run()</code>在发生取消时是否应该中断执行。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>false</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.execution.isolation.thread.interruptOnCancel</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.execution.isolation.thread.interruptOnCancel</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="execution-isolation-semaphore-maxConcurrentRequests"><a href="#execution-isolation-semaphore-maxConcurrentRequests" class="headerlink" title="execution.isolation.semaphore.maxConcurrentRequests"></a>execution.isolation.semaphore.maxConcurrentRequests</h4><p>设置信号量隔离下<code>HystrixCommand.run()</code>方法允许的最大请求数，超过这个数后续请求将被拒绝。</p>
+<p>当你选择一个信号量时，你使用的逻辑基本上和你选择线程池中添加多少个线程相同，但是信号量的开销要小得多，通常执行速度要快得多（亚毫秒）</p>
+<p>信号量应该是整个容器（即Tomcat）线程池的一小部分，而不是全部或大部分，否则它不提供保护。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.execution.isolation.semaphore.maxConcurrentRequests</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="Fallback-设置当fallback降级发生时的策略"><a href="#Fallback-设置当fallback降级发生时的策略" class="headerlink" title="Fallback(设置当fallback降级发生时的策略)"></a>Fallback(设置当fallback降级发生时的策略)</h3><p>以下属性控制如何<code>HystrixCommand.getFallback()</code>执行。这些属性适用于<code>ExecutionIsolationStrategy.THREAD</code>和<code>ExecutionIsolationStrategy.SEMAPHORE</code>。</p>
+<h4 id="fallback-isolation-semaphore-maxConcurrentRequests"><a href="#fallback-isolation-semaphore-maxConcurrentRequests" class="headerlink" title="fallback.isolation.semaphore.maxConcurrentRequests"></a>fallback.isolation.semaphore.maxConcurrentRequests</h4><p>该属性设置<code>HystrixCommand.getFallback()</code>方法允许从调用线程进行请求的最大数量。</p>
+<p>如果命中最大并发限制，则随后的请求将被拒绝，并抛出异常，因为不可能检索到回退。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.fallback.isolation.semaphore.maxConcurrentRequests</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.fallback.isolation.semaphore.maxConcurrentRequests</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="fallback-enabled"><a href="#fallback-enabled" class="headerlink" title="fallback.enabled"></a>fallback.enabled</h4><p>默认值：true</p>
+<p>设置发生故障时是否尝试呼叫fallback。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>true</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.fallback.enabled</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.fallback.enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="Circuit-Breaker-配置熔断的策略"><a href="#Circuit-Breaker-配置熔断的策略" class="headerlink" title="Circuit Breaker(配置熔断的策略)"></a>Circuit Breaker(配置熔断的策略)</h3><p>断路器属性控制行为<code>HystrixCircuitBreaker</code></p>
+<h4 id="circuitBreaker-enabled"><a href="#circuitBreaker-enabled" class="headerlink" title="circuitBreaker.enabled"></a>circuitBreaker.enabled</h4><p>是否启用断路器。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>true</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.circuitBreaker.enabled</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.circuitBreaker.enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="circuitBreaker-requestVolumeThreshold"><a href="#circuitBreaker-requestVolumeThreshold" class="headerlink" title="circuitBreaker.requestVolumeThreshold"></a>circuitBreaker.requestVolumeThreshold</h4><p>该属性设置滚动窗口中将使断路器打开的最小请求数量。</p>
+<p>例如，如果值是20，那么如果在滚动窗口中接收到19个请求（例如10秒的窗口），则即使所有19个请求都失败，断路器也不会打开。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>20</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.circuitBreaker.requestVolumeThreshold</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.circuitBreaker.requestVolumeThreshold</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="circuitBreaker-sleepWindowInMilliseconds"><a href="#circuitBreaker-sleepWindowInMilliseconds" class="headerlink" title="circuitBreaker.sleepWindowInMilliseconds"></a>circuitBreaker.sleepWindowInMilliseconds</h4><p>该属性设置断路器打开的时间，拒绝请求，然后再次尝试确定断路器是否应再次闭合。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>5000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.circuitBreaker.sleepWindowInMilliseconds</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.circuitBreaker.sleepWindowInMilliseconds</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="circuitBreaker-errorThresholdPercentage"><a href="#circuitBreaker-errorThresholdPercentage" class="headerlink" title="circuitBreaker.errorThresholdPercentage"></a>circuitBreaker.errorThresholdPercentage</h4><p>该属性设置错误百分比，在该值以上，电路应断开，并开始将请求短路到回退逻辑。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>50</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.circuitBreaker.errorThresholdPercentage</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.circuitBreaker.errorThresholdPercentage</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="circuitBreaker-forceOpen"><a href="#circuitBreaker-forceOpen" class="headerlink" title="circuitBreaker.forceOpen"></a>circuitBreaker.forceOpen</h4><p>默认值：false</p>
+<p>如果这个属性<code>true</code>强制断路器进入一个打开（跳闸）状态，在这个状态下它将拒绝所有的请求。</p>
+<p>该属性优先<code>circuitBreaker.forceClosed</code>。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>false</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.circuitBreaker.forceOpen</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.circuitBreaker.forceOpen</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="circuitBreaker-forceClosed"><a href="#circuitBreaker-forceClosed" class="headerlink" title="circuitBreaker.forceClosed"></a>circuitBreaker.forceClosed</h4><p>如果该属性<code>true</code>强制断路器进入关闭状态，在这种状态下，不管错误百分比如何，都将允许请求。</p>
+<p>该<code>circuitBreaker.forceOpen</code>属性优先，所以如果它被设置为<code>true</code>这个属性什么也不做。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>false</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.circuitBreaker.forceClosed</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.circuitBreaker.forceClosed</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="Metrics-关于HystrixCommand执行需要的统计信息"><a href="#Metrics-关于HystrixCommand执行需要的统计信息" class="headerlink" title="Metrics(关于HystrixCommand执行需要的统计信息)"></a>Metrics(关于HystrixCommand执行需要的统计信息)</h3><p>Hystrix的Metrics中保存了当前服务的健康状况, 包括服务调用总次数和服务调用失败次数等. 根据Metrics的计数, 熔断器从而能计算出当前服务的调用失败率, 用来和设定的阈值比较从而决定熔断器的状态切换逻辑. 因此Metrics的实现非常重要.</p>
+<p>以下属性与捕获指标<code>HystrixCommand</code>和<code>HystrixObservableCommand</code>执行相关。</p>
+<h4 id="metrics-rollingStats-timeInMilliseconds"><a href="#metrics-rollingStats-timeInMilliseconds" class="headerlink" title="metrics.rollingStats.timeInMilliseconds"></a>metrics.rollingStats.timeInMilliseconds</h4><p>默认值：10000</p>
+<p>该属性设置统计滚动窗口的持续时间，以毫秒为单位。</p>
+<p>窗口被分成桶和“卷”这些增量。</p>
+<p>例如，如果将此属性设置为10秒（<code>10000</code>），并显示十个1秒的存储桶，则下图显示了如何将新存储桶和旧存储桶关闭：</p>
+<p><img src="https://github.com/Netflix/Hystrix/wiki/images/rolling-stats-640.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.metrics.rollingStats.timeInMilliseconds</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.metrics.rollingStats.timeInMilliseconds</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-rollingStats-numBuckets"><a href="#metrics-rollingStats-numBuckets" class="headerlink" title="metrics.rollingStats.numBuckets"></a>metrics.rollingStats.numBuckets</h4><p>默认值：10</p>
+<p>该属性设置滚动统计窗口分成的桶的数量。 设置的时候要注意，这个值必须能能被滚动窗口的持续时间整除否则会报错。</p>
+<p>换句话说，10000/10是可以的，10000/20也是，但是10000/7不是。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可能的值</td>
+<td><code>metric.rollingStats.timeInMilliseconds</code>可以平分的任何值。结果应该是数百或数千毫秒的桶。</td>
+</tr>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.metrics.rollingStats.numBuckets</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.metrics.rollingStats.numBuckets</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-rollingPercentile-enabled"><a href="#metrics-rollingPercentile-enabled" class="headerlink" title="metrics.rollingPercentile.enabled"></a>metrics.rollingPercentile.enabled</h4><p>默认值：true</p>
+<p>设置执行时间是否被跟踪，并且计算各个百分比。如果他们被禁用，则所有汇总统计（平均值，百分位数）返回为-1。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>true</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.metrics.rollingPercentile.enabled</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.metrics.rollingPercentile.enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-rollingPercentile-timeInMilliseconds"><a href="#metrics-rollingPercentile-timeInMilliseconds" class="headerlink" title="metrics.rollingPercentile.timeInMilliseconds"></a>metrics.rollingPercentile.timeInMilliseconds</h4><p>此属性设置滚动窗口的持续时间，在该窗口中保留执行时间以允许百分数计算（以毫秒为单位）。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>60000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.metrics.rollingPercentile.timeInMilliseconds</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.metrics.rollingPercentile.timeInMilliseconds</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-rollingPercentile-numBuckets"><a href="#metrics-rollingPercentile-numBuckets" class="headerlink" title="metrics.rollingPercentile.numBuckets"></a>metrics.rollingPercentile.numBuckets</h4><p>该属性设置<code>rollingPercentile</code>窗口将被分成的桶的数量。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>6</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可能的值</td>
+<td><code>metric.rollingPercentile.timeInMilliseconds</code>可以被任何值<code>均分</code>。结果应该是数千毫秒的桶。</td>
+</tr>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.metrics.rollingPercentile.numBuckets</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.metrics.rollingPercentile.numBuckets</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-rollingPercentile-bucketSize"><a href="#metrics-rollingPercentile-bucketSize" class="headerlink" title="metrics.rollingPercentile.bucketSize"></a>metrics.rollingPercentile.bucketSize</h4><p>该属性设置每个存储桶的最大执行次数。如果在执行期间执行更多的执行，他们将环绕并开始在桶的开头重写。</p>
+<p>例如，如果存储区大小设置为100，并表示10秒的存储区窗口，但是在此期间发生500次执行，则只有最后100次执行将保留在该10秒存储区中。</p>
+<p>如果增加这个大小，这也增加了存储值所需的内存量，并增加了对列表进行排序以进行百分比计算所需的时间。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>100</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.metrics.rollingPercentile.bucketSize</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.metrics.rollingPercentile.bucketSize</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-healthSnapshot-intervalInMilliseconds"><a href="#metrics-healthSnapshot-intervalInMilliseconds" class="headerlink" title="metrics.healthSnapshot.intervalInMilliseconds"></a>metrics.healthSnapshot.intervalInMilliseconds</h4><p>默认值：500</p>
+<p>此属性设置允许执行运行成功和错误百分比并影响断路器状态的健康快照之间等待的时间（以毫秒为单位）。</p>
+<p>，连续计算误差百分比可能会消耗CPU过多，因此这个属性允许你控制计算的频率。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>500</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.metrics.healthSnapshot.intervalInMilliseconds</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.metrics.healthSnapshot.intervalInMilliseconds</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="requestCache-enabled"><a href="#requestCache-enabled" class="headerlink" title="requestCache.enabled"></a>requestCache.enabled</h4><p>默认值：true</p>
+<p>此属性指示是否<code>HystrixCommand.getCacheKey()</code>应该使用此属性<code>HystrixRequestCache</code>来通过请求范围的缓存提供重复数据删除功能。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>true</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.requestCache.enabled</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.requestCache.enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="requestLog-enabled"><a href="#requestLog-enabled" class="headerlink" title="requestLog.enabled"></a>requestLog.enabled</h4><p>默认值：true</p>
+<p>该属性指示是否<code>HystrixCommand</code>应执行和事件记录<code>HystrixRequestLog</code>。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>真正</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.command.default.requestLog.enabled</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.command.HystrixCommandKey.requestLog.enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="Collapser属性"><a href="#Collapser属性" class="headerlink" title="Collapser属性"></a>Collapser属性</h2><p>以下属性控制<a href="http://netflix.github.io/Hystrix/javadoc/index.html?com/netflix/hystrix/HystrixCollapser.html" target="_blank" rel="external"><code>HystrixCollapser</code></a>行为。</p>
+<h4 id="maxRequestsInBatch"><a href="#maxRequestsInBatch" class="headerlink" title="maxRequestsInBatch"></a>maxRequestsInBatch</h4><p>此属性设置批处理允许的最大请求数量，然后触发批处理执行。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>Integer.MAX_VALUE</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.collapser.default.maxRequestsInBatch</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.collapser.HystrixCollapserKey.maxRequestsInBatch</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="timerDelayInMilliseconds"><a href="#timerDelayInMilliseconds" class="headerlink" title="timerDelayInMilliseconds"></a>timerDelayInMilliseconds</h4><p>此属性设置创建触发执行的批处理之后的毫秒数。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.collapser.default.timerDelayInMilliseconds</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.collapser.HystrixCollapserKey.timerDelayInMilliseconds</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="requestCache-enabled-1"><a href="#requestCache-enabled-1" class="headerlink" title="requestCache.enabled"></a>requestCache.enabled</h4><p>此属性指示请求缓存是否启用<code>HystrixCollapser.execute()</code>和<code>HystrixCollapser.queue()</code>调用。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>true</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.collapser.default.requestCache.enabled</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.collapser.HystrixCollapserKey.requestCache.enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ThreadPool属性"><a href="#ThreadPool属性" class="headerlink" title="ThreadPool属性"></a>ThreadPool属性</h2><p>以下属性控制Hystrix命令执行的线程池的行为。请注意，这些名称与<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html" target="_blank" rel="external">ThreadPoolExecutor Javadoc</a>中<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html" target="_blank" rel="external">的</a>名称相匹配</p>
+<p>大多数情况下，10个线程的默认值都可以（通常可以做得更小）。</p>
+<p>要确定是否需要更大，计算大小的基本公式是：</p>
+<p><em>requests per second at peak when healthy × 99th percentile latency in seconds + some breathing room</em></p>
+<blockquote>
+<p>每秒最大支撑的请求数 <em>(99%平均响应时间 + 缓存值)比如：每秒能处理1000个请求，99%的请求响应时间是60ms，那么公式是：1000 </em>（0.060+0.012）</p>
+</blockquote>
+<p>总体原则是尽可能保持池的小，因为它是减少负载的主要工具，并防止延迟发生时资源被阻塞。</p>
+<p><img src="https://github.com/Netflix/Hystrix/wiki/images/thread-configuration-640.png" alt="img"></p>
+<p>当性能特征发生变化或发现问题时，您可以根据需要实时更改配置，而且如果出现问题或配置错误，则无需关闭整个应用程序。</p>
+<h4 id="coreSize"><a href="#coreSize" class="headerlink" title="coreSize"></a>coreSize</h4><p>该属性设置核心线程池大小。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.coreSize</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolKey.coreSize</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="MAXIMUMSIZE"><a href="#MAXIMUMSIZE" class="headerlink" title="MAXIMUMSIZE"></a>MAXIMUMSIZE</h4><p>在1.5.9中添加。该属性设置最大的线程池大小。这是可以支持而不开始拒绝<code>HystrixCommand</code>的最大并发数量。请注意，这个设置只有在你设置的时候才会生效<code>allowMaximumSizeToDivergeFromCoreSize</code>。在1.5.9之前，核心和最大尺寸总是相等的。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.maximumSize</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolKey.maximumSize</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="maxQueueSize"><a href="#maxQueueSize" class="headerlink" title="maxQueueSize"></a>maxQueueSize</h4><p> <code>BlockingQueue</code>的最大队列数，当设为－1，会使用<code>SynchronousQueue</code>，否则使用<code>LinkedBlcokingQueue</code>。该设置只会在初始化时有效。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>-1</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.maxQueueSize</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolKey.maxQueueSize</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="queueSizeRejectionThreshold"><a href="#queueSizeRejectionThreshold" class="headerlink" title="queueSizeRejectionThreshold"></a>queueSizeRejectionThreshold</h4><p>此属性设置队列大小拒绝阈值 - 即使<code>maxQueueSize</code>还没有达到拒绝将发生的最大队列大小。这个属性的存在是因为<code>maxQueueSize</code>  <code>BlockingQueue</code>不能被动态改变，我们希望允许你动态地改变影响拒绝的队列大小。</p>
+<p>这是通过使用<code>HystrixCommand</code>排队要执行的线程时。</p>
+<p><strong>注意：</strong>如果这个属性不适用<code>maxQueueSize == -1</code>。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>5</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.queueSizeRejectionThreshold</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolKey.queueSizeRejectionThreshold</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="keepAliveTimeMinutes"><a href="#keepAliveTimeMinutes" class="headerlink" title="keepAliveTimeMinutes"></a>keepAliveTimeMinutes</h4><p>该属性设置保持活动时间，以分钟为单位。</p>
+<p>在1.5.9之前，所有的线程池都是固定大小的<code>coreSize == maximumSize</code>。在1.5.9和之后，设置<code>allowMaximumSizeToDivergeFromCoreSize</code>为<code>true</code>允许这两个值分开，这样池可以获取/释放线程。如果<code>coreSize &lt; maximumSize</code>，那么这个属性控制一个线程在被释放之前将会被使用多久。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>1</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.keepAliveTimeMinutes</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolKey.keepAliveTimeMinutes</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="allowMaximumSizeToDivergeFromCoreSize"><a href="#allowMaximumSizeToDivergeFromCoreSize" class="headerlink" title="allowMaximumSizeToDivergeFromCoreSize"></a>allowMaximumSizeToDivergeFromCoreSize</h4><p>在1.5.9中添加。该属性允许配置<code>maximumSize</code>生效。这个值可以等于或高于<code>coreSize</code>。设置<code>coreSize &lt; maximumSize</code>创建一个可以维持<code>maximumSize</code>并发的线程池，但会在相对不活动期间返回线程到系统。（受<code>keepAliveTimeInMinutes</code>）</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>false</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.allowMaximumSizeToDivergeFromCoreSize</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolKey.allowMaximumSizeToDivergeFromCoreSize</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-rollingStats-timeInMilliseconds-1"><a href="#metrics-rollingStats-timeInMilliseconds-1" class="headerlink" title="metrics.rollingStats.timeInMilliseconds"></a>metrics.rollingStats.timeInMilliseconds</h4><p>该属性设置统计滚动窗口的持续时间，以毫秒为单位。这是为线程池保留多长时间的指标。</p>
+<p>窗口被分成桶和“滚”这些增量。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10000</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.metrics.rollingStats.timeInMilliseconds</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolKey.metrics.rollingStats.timeInMilliseconds</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="metrics-rollingStats-numBuckets-1"><a href="#metrics-rollingStats-numBuckets-1" class="headerlink" title="metrics.rollingStats.numBuckets"></a>metrics.rollingStats.numBuckets</h4><p>该属性设置滚动统计窗口分成的桶的数量。</p>
+<p><strong>注意：</strong>以下必须为真 - “ <code>metrics.rollingStats.timeInMilliseconds % metrics.rollingStats.numBuckets == 0</code>” - 否则会引发异常。</p>
+<p>换句话说，10000/10是可以的，10000/20也是，但是10000/7不是。</p>
+<table>
+<thead>
+<tr>
+<th>默认值</th>
+<th><code>10</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可能的值</td>
+<td><code>metric.rollingStats.timeInMilliseconds</code>可以平分的任何值。结果应该是数百或数千毫秒的桶。大容量的性能还没有经过100ms以上的测试。</td>
+</tr>
+<tr>
+<td>默认属性</td>
+<td><code>hystrix.threadpool.default.metrics.rollingStats.numBuckets</code></td>
+</tr>
+<tr>
+<td>实例属性</td>
+<td><code>hystrix.threadpool.HystrixThreadPoolProperties.metrics.rollingStats.numBuckets</code></td>
+</tr>
+</tbody>
+</table>
+<p>### </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    严海林
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yanhailin.com/2017/12/20/spring-cloud-hystrix/" title="spring-cloud-hystrix">http://yanhailin.com/2017/12/20/spring-cloud-hystrix/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring-cloud/" rel="tag"># spring cloud</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/18/spring-boot-admin/" rel="next" title="spring-boot-admin">
+                <i class="fa fa-chevron-left"></i> spring-boot-admin
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/24/spring-cloud-sleuth集成Zipkin/" rel="prev" title="spring-cloud-sleuth集成Zipkin">
+                spring-cloud-sleuth集成Zipkin <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/myTag.jpg"
+                alt="严海林" />
+            
+              <p class="site-author-name" itemprop="name">严海林</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Ybigbang" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#hystrix-配置"><span class="nav-number">1.</span> <span class="nav-text">hystrix 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Execution-控制HystrixCommand-run-的执行策略"><span class="nav-number">2.</span> <span class="nav-text">Execution(控制HystrixCommand.run()的执行策略)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#execution-isolation-strategy"><span class="nav-number">2.1.</span> <span class="nav-text">execution.isolation.strategy</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#线程或信号量"><span class="nav-number">2.1.1.</span> <span class="nav-text">线程或信号量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#execution-isolation-thread-timeoutInMilliseconds"><span class="nav-number">2.2.</span> <span class="nav-text">execution.isolation.thread.timeoutInMilliseconds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#execution-timeout-enabled"><span class="nav-number">2.3.</span> <span class="nav-text">execution.timeout.enabled</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#execution-isolation-thread-interruptOnTimeout"><span class="nav-number">2.4.</span> <span class="nav-text">execution.isolation.thread.interruptOnTimeout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#execution-isolation-thread-interruptOnCancel"><span class="nav-number">2.5.</span> <span class="nav-text">execution.isolation.thread.interruptOnCancel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#execution-isolation-semaphore-maxConcurrentRequests"><span class="nav-number">2.6.</span> <span class="nav-text">execution.isolation.semaphore.maxConcurrentRequests</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fallback-设置当fallback降级发生时的策略"><span class="nav-number">3.</span> <span class="nav-text">Fallback(设置当fallback降级发生时的策略)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fallback-isolation-semaphore-maxConcurrentRequests"><span class="nav-number">3.1.</span> <span class="nav-text">fallback.isolation.semaphore.maxConcurrentRequests</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fallback-enabled"><span class="nav-number">3.2.</span> <span class="nav-text">fallback.enabled</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Circuit-Breaker-配置熔断的策略"><span class="nav-number">4.</span> <span class="nav-text">Circuit Breaker(配置熔断的策略)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitBreaker-enabled"><span class="nav-number">4.1.</span> <span class="nav-text">circuitBreaker.enabled</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitBreaker-requestVolumeThreshold"><span class="nav-number">4.2.</span> <span class="nav-text">circuitBreaker.requestVolumeThreshold</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitBreaker-sleepWindowInMilliseconds"><span class="nav-number">4.3.</span> <span class="nav-text">circuitBreaker.sleepWindowInMilliseconds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitBreaker-errorThresholdPercentage"><span class="nav-number">4.4.</span> <span class="nav-text">circuitBreaker.errorThresholdPercentage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitBreaker-forceOpen"><span class="nav-number">4.5.</span> <span class="nav-text">circuitBreaker.forceOpen</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitBreaker-forceClosed"><span class="nav-number">4.6.</span> <span class="nav-text">circuitBreaker.forceClosed</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Metrics-关于HystrixCommand执行需要的统计信息"><span class="nav-number">5.</span> <span class="nav-text">Metrics(关于HystrixCommand执行需要的统计信息)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingStats-timeInMilliseconds"><span class="nav-number">5.1.</span> <span class="nav-text">metrics.rollingStats.timeInMilliseconds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingStats-numBuckets"><span class="nav-number">5.2.</span> <span class="nav-text">metrics.rollingStats.numBuckets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingPercentile-enabled"><span class="nav-number">5.3.</span> <span class="nav-text">metrics.rollingPercentile.enabled</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingPercentile-timeInMilliseconds"><span class="nav-number">5.4.</span> <span class="nav-text">metrics.rollingPercentile.timeInMilliseconds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingPercentile-numBuckets"><span class="nav-number">5.5.</span> <span class="nav-text">metrics.rollingPercentile.numBuckets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingPercentile-bucketSize"><span class="nav-number">5.6.</span> <span class="nav-text">metrics.rollingPercentile.bucketSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-healthSnapshot-intervalInMilliseconds"><span class="nav-number">5.7.</span> <span class="nav-text">metrics.healthSnapshot.intervalInMilliseconds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requestCache-enabled"><span class="nav-number">5.8.</span> <span class="nav-text">requestCache.enabled</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requestLog-enabled"><span class="nav-number">5.9.</span> <span class="nav-text">requestLog.enabled</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collapser属性"><span class="nav-number"></span> <span class="nav-text">Collapser属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#maxRequestsInBatch"><span class="nav-number">0.1.</span> <span class="nav-text">maxRequestsInBatch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#timerDelayInMilliseconds"><span class="nav-number">0.2.</span> <span class="nav-text">timerDelayInMilliseconds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requestCache-enabled-1"><span class="nav-number">0.3.</span> <span class="nav-text">requestCache.enabled</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadPool属性"><span class="nav-number"></span> <span class="nav-text">ThreadPool属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#coreSize"><span class="nav-number">0.1.</span> <span class="nav-text">coreSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MAXIMUMSIZE"><span class="nav-number">0.2.</span> <span class="nav-text">MAXIMUMSIZE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#maxQueueSize"><span class="nav-number">0.3.</span> <span class="nav-text">maxQueueSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#queueSizeRejectionThreshold"><span class="nav-number">0.4.</span> <span class="nav-text">queueSizeRejectionThreshold</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#keepAliveTimeMinutes"><span class="nav-number">0.5.</span> <span class="nav-text">keepAliveTimeMinutes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allowMaximumSizeToDivergeFromCoreSize"><span class="nav-number">0.6.</span> <span class="nav-text">allowMaximumSizeToDivergeFromCoreSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingStats-timeInMilliseconds-1"><span class="nav-number">0.7.</span> <span class="nav-text">metrics.rollingStats.timeInMilliseconds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics-rollingStats-numBuckets-1"><span class="nav-number">0.8.</span> <span class="nav-text">metrics.rollingStats.numBuckets</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">严海林</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Ybigbang',
+            repo: 'Ybigbang.github.io',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'b5a0b1528c750f2d152a3a964cff5e6049d8a439',
+            
+                client_id: '3e766e5da0fbd4b3ce4e'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+   <script color="211,0,255" zIndex="-1" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
+</body>
+</html>
