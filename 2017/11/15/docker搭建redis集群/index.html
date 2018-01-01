@@ -88,18 +88,18 @@
 <meta name="keywords" content="docker,redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker搭建redis集群">
-<meta property="og:url" content="www.yanhailin.com/2017/11/15/docker搭建redis集群/index.html">
+<meta property="og:url" content="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/index.html">
 <meta property="og:site_name" content="颜如玉">
 <meta property="og:description" content="docker 构建 redis 集群由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。 redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="/15/docker搭建redis集群/docker-redis.png">
-<meta property="og:image" content="/15/docker搭建redis集群/redis启动.PNG">
-<meta property="og:image" content="/15/docker搭建redis集群/redis启动.PNG">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/docker-redis.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/redis启动.PNG">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/redis启动.PNG">
 <meta property="og:updated_time" content="2017-11-15T16:11:31.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker搭建redis集群">
 <meta name="twitter:description" content="docker 构建 redis 集群由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。 redis 集群分类:大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，">
-<meta name="twitter:image" content="/15/docker搭建redis集群/docker-redis.png">
+<meta name="twitter:image" content="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/docker-redis.png">
 
 
 
@@ -129,7 +129,7 @@
 
 
 
-  <link rel="canonical" href="www.yanhailin.com/2017/11/15/docker搭建redis集群/"/>
+  <link rel="canonical" href="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/"/>
 
 
 
@@ -306,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.yanhailin.com/2017/11/15/docker搭建redis集群/">
+    <link itemprop="mainEntityOfPage" href="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -453,7 +453,7 @@
 
       
         <h3 id="docker-构建-redis-集群"><a href="#docker-构建-redis-集群" class="headerlink" title="docker 构建 redis 集群"></a>docker 构建 redis 集群</h3><p>由于最近项目用到redis,考虑到redis的高可用故用docker搭建redis集群镜像。把原先散落各处的redis服务器统一管理起来，并且保障高可用和故障自动迁移。</p>
-<h3 id="redis-集群分类"><a href="#redis-集群分类" class="headerlink" title="redis 集群分类:"></a><img src="/15/docker搭建redis集群/docker-redis.png" alt="docker-redis">redis 集群分类:</h3><p>大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，同时有多个master，数据分片部署在各个master上。基于我们的需求和redis本身技术的成熟度，本次要搭建的是redis sentinel。</p>
+<h3 id="redis-集群分类"><a href="#redis-集群分类" class="headerlink" title="redis 集群分类:"></a><img src="/2017/11/15/docker搭建redis集群/docker-redis.png" alt="docker-redis">redis 集群分类:</h3><p>大家都知道redis集群有两种，一种是redis sentinel，高可用集群，同时只有一个master，各实例数据保持一致；一种是redis cluster，分布式集群，同时有多个master，数据分片部署在各个master上。基于我们的需求和redis本身技术的成熟度，本次要搭建的是redis sentinel。</p>
 <p>关于它的介绍：</p>
 <p>Redis 的 Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下四个任务：</p>
 <ul>
@@ -463,7 +463,7 @@
 <li>哨兵为客户端提供服务发现，客户端链接哨兵，哨兵提供当前master的地址然后提供服务，如果出现切换，也就是master挂了，哨兵会提供客户端一个新地址。</li>
 </ul>
 <h3 id="制作镜像"><a href="#制作镜像" class="headerlink" title="制作镜像"></a>制作镜像</h3><p>整个集群可以分为一个master，N个slave，M个sentinel，本次以2个slave和3个sentinel为例：</p>
-<p><img src="/15/docker搭建redis集群/redis启动.PNG" alt="67346963428966a1f5baea667f9ac2545e8b1631"></p>
+<p><img src="/2017/11/15/docker搭建redis集群/redis启动.PNG" alt="67346963428966a1f5baea667f9ac2545e8b1631"></p>
 <p>增加<code>redis.conf</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##redis.conf</span></span><br><span class="line"><span class="comment">##redis-0,默认为master</span></span><br><span class="line"><span class="string">port</span> <span class="string">$redis_port</span></span><br><span class="line"><span class="comment">##授权密码，请各个配置保持一致</span></span><br><span class="line"><span class="comment">##暂且禁用指令重命名</span></span><br><span class="line"><span class="comment">##rename-command</span></span><br><span class="line"><span class="comment">##开启AOF，禁用snapshot</span></span><br><span class="line"><span class="string">appendonly</span> <span class="literal">yes</span></span><br><span class="line"><span class="comment">#slaveof redis-master $master_port #redis-master master主机域名</span></span><br><span class="line"><span class="string">slave-read-only</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
 <p>增加<code>sentinel.conf</code></p>
@@ -478,7 +478,7 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">redis-master-host:</span></span><br><span class="line"><span class="attr">  environment:</span></span><br><span class="line"><span class="attr">    redis_port:</span> <span class="string">'16379'</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">io.rancher.container.pull_image:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  tty:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  image:</span> <span class="comment">#镜像id</span></span><br><span class="line"><span class="attr">  stdin_open:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  net:</span> <span class="string">host</span></span><br><span class="line"><span class="attr">redis-slaves:</span></span><br><span class="line"><span class="attr">  environment:</span></span><br><span class="line"><span class="attr">    master_port:</span> <span class="string">'16379'</span></span><br><span class="line"><span class="attr">    redis_port:</span> <span class="string">'16380'</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">io.rancher.scheduler.affinity:container_label_soft_ne:</span> <span class="string">name=slaves</span></span><br><span class="line">    <span class="string">io.rancher.container.pull_image:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">slaves</span></span><br><span class="line"><span class="attr">  tty:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  command:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">slave</span></span><br><span class="line"><span class="attr">  image:</span> <span class="comment">#镜像id</span></span><br><span class="line"><span class="attr">  stdin_open:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  net:</span> <span class="string">host</span></span><br><span class="line"><span class="attr">redis-sentinels:</span></span><br><span class="line"><span class="attr">  environment:</span></span><br><span class="line"><span class="attr">    master_port:</span> <span class="string">'16379'</span></span><br><span class="line"><span class="attr">    sentinel_port:</span> <span class="string">'16381'</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">io.rancher.container.pull_image:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">sentinels</span></span><br><span class="line">    <span class="string">io.rancher.scheduler.affinity:container_label_ne:</span> <span class="string">name=sentinels</span></span><br><span class="line"><span class="attr">  tty:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  command:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">sentinel</span></span><br><span class="line"><span class="attr">  image:</span> <span class="comment">#镜像id</span></span><br><span class="line"><span class="attr">  stdin_open:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  net:</span> <span class="string">host</span></span><br></pre></td></tr></table></figure>
 <p>首先启动master，传入端口16379，host模式，在启动slave，成为16379  master 的slave，并且设置调度策略为尽可能分散的方式，sentinels也类似。</p>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>启动 redis集群：</p>
-<p><img src="/15/docker搭建redis集群/redis启动.PNG" alt="redis启动"></p>
+<p><img src="/2017/11/15/docker搭建redis集群/redis启动.PNG" alt="redis启动"></p>
 <p>java访问<code>redis</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">// 保存字符串</span></span><br><span class="line">	        <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">				stringRedisTemplate.opsForValue().set(<span class="string">"a"</span> + i, <span class="string">"111"</span>);</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 <p>此时停掉一台哨兵 可以正常存储</p>
@@ -514,7 +514,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="www.yanhailin.com/2017/11/15/docker搭建redis集群/" title="docker搭建redis集群">www.yanhailin.com/2017/11/15/docker搭建redis集群/</a>
+    <a href="http://www.yanhailin.com/2017/11/15/docker搭建redis集群/" title="docker搭建redis集群">http://www.yanhailin.com/2017/11/15/docker搭建redis集群/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>

@@ -88,22 +88,22 @@
 <meta name="keywords" content="spring,rabbitmq">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring-cloud-stream-rabbitmq">
-<meta property="og:url" content="www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/index.html">
+<meta property="og:url" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/index.html">
 <meta property="og:site_name" content="颜如玉">
 <meta property="og:description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="/14/spring-cloud-stream-rabbitmq/图片1.png">
-<meta property="og:image" content="/14/spring-cloud-stream-rabbitmq/图片2.png">
-<meta property="og:image" content="/14/spring-cloud-stream-rabbitmq/图片3.png">
-<meta property="og:image" content="/14/spring-cloud-stream-rabbitmq/图片4.png">
-<meta property="og:image" content="/14/spring-cloud-stream-rabbitmq/图片5.png">
-<meta property="og:image" content="/14/spring-cloud-stream-rabbitmq/图片6.png">
-<meta property="og:image" content="/14/spring-cloud-stream-rabbitmq/图片7.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片2.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片3.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片4.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片5.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片6.png">
+<meta property="og:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片7.png">
 <meta property="og:updated_time" content="2017-11-14T16:03:43.113Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring-cloud-stream-rabbitmq">
 <meta name="twitter:description" content="Spring cloud stream 使用 rabbitmq 在使用spring cloud 构建微服务的时候用到的消息队列rabbitmq 综合了一下感觉用spring cloud stream 整合比较简单后期如果更换其它消息队列也比较简单 spring cloud stream 整合rabbitmq 概述 Spring Cloud Stream（以下简称SCS）是一个用于构建消息驱动微服务">
-<meta name="twitter:image" content="/14/spring-cloud-stream-rabbitmq/图片1.png">
+<meta name="twitter:image" content="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png">
 
 
 
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/"/>
+  <link rel="canonical" href="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/"/>
 
 
 
@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/">
+    <link itemprop="mainEntityOfPage" href="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -479,10 +479,10 @@
 <p>@StreamListener注解用于监听通道，由于我们在生产者发送的是一个”Hello World”字符串，因此在这里我们用string来接收它，注意Message用的是org.springframework.messaging.Message；与生产者一样，在启动类上添加@EnableBinding(MyChannel.class)。</p>
 <h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><hr>
 <p>首先启动消费者微服务，如果你激活了RabbitMQ管理平台，那么此时就可以在上面看到test通道的相关信息了，包括Exchange和Queue</p>
-<p><img src="/14/spring-cloud-stream-rabbitmq/图片1.png" alt="图片1"></p>
-<p><img src="/14/spring-cloud-stream-rabbitmq/图片2.png" alt="图片2"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片1.png" alt="图片1"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片2.png" alt="图片2"></p>
 <p>访问消息提供者的接口 <a href="http://localhost:8082/send在监听方会有消息" target="_blank" rel="external">http://localhost:8082/send在监听方会有消息</a></p>
-<p><img src="/14/spring-cloud-stream-rabbitmq/图片3.png" alt="图片3"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片3.png" alt="图片3"></p>
 <h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><hr>
 <p>至此我们就完成了简单的消息发送与接收服务，是不是感觉很快就能起飞了呢？手动配置在开头我提到可以暂时不对RabbitMQ做配置，这是为了我们可以快速开发调试。但现实中我们不可能不去修改RabbitMQ的配置（哪怕只是改改密码，毕竟guest相当于裸奔），那么如何让SCS去匹配修改过的配置呢？单就YAML配置来说，有两种方式（使用@Configuration类做配置的朋友请自行对照）：</p>
 <p>直接配置spring.rabbitmq，比如我使用另外一个用户连接</p>
@@ -502,17 +502,17 @@
 <p>修改消费者sc-stream-consumer的receive()方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@StreamListener</span>(MyChannel.INPUT)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Message&lt;User&gt; message)</span></span>&#123;</span><br><span class="line">        System.out.println(message);</span><br><span class="line">        System.out.println(message.getPayload());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>访问send 结果</p>
-<p><img src="/14/spring-cloud-stream-rabbitmq/图片4.png" alt="图片4"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片4.png" alt="图片4"></p>
 <p>接收方接到了一个user对象</p>
 <p>如果你的User是分别在生产者和消费者中定义的，并且包路径不同，那么会报错反序列化失败。原因是SCS会默认将POJO转换成二进制发送，并且携带包路径等信息；</p>
 <p>如果生产者和消费者使用的User是同一定义，或分别定义但包路径相同，那么就不会报错。</p>
 <p>看起来略微有点不爽，那么有没有别的转换方式呢？</p>
 <p>有，而且官方还提供了很多：</p>
-<p><img src="/14/spring-cloud-stream-rabbitmq/图片5.png" alt="图片5"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片5.png" alt="图片5"></p>
 <p>下面我会举例用JSON字符串来传递POJO，其实只要在生产者中加上一条配置即可：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">      	test:</span><br><span class="line">          content-type: application/json</span><br></pre></td></tr></table></figure>
 <p>此时消费者sc-stream-consumer接收的消息实体实际上是字符串了，我们可以用Message<string>来测试一下：</string></p>
-<p><img src="/14/spring-cloud-stream-rabbitmq/图片6.png" alt="图片6"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片6.png" alt="图片6"></p>
 <p>此时收到的就是json数据了</p>
 <p>既然接收的是JSON字符串了，那Spring怎么可能不提供自动反射呢XD，再次把消息实体换回User就行了。</p>
 <h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>实际生产中，我们一般都会启动多个消费者实例来做负载均衡，既然是负载均衡，我们肯定希望一条消息在一组负载均衡实例中只被其中一个消费者接收。那么SCS是如何处理这种情况的呢？</p>
@@ -522,7 +522,7 @@
 <p>关键点在headers中的amqp_consumerQueue这个属性上，我们看到8081和8082的amqp_consumerQueue前面都是test.anonymous，但后面却是不一样的。这其实表示他们被分到了不同的匿名组（即group），而同一条消息会被test中的每个组都接收到。这个也很好理解，我们把group比喻成现实中的公司各部门，现在我要发一个通知，我会发给所有的部门，但同一部门中只要有一个人收到了，我就认为这个部门收到了通知。</p>
 <p>所以只要把要负载均衡的实例分在同一个group下就好了，我们给消费者添加如下配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    stream:</span><br><span class="line">      bindings:</span><br><span class="line">        test:</span><br><span class="line">          group: yhl</span><br></pre></td></tr></table></figure>
-<p><img src="/14/spring-cloud-stream-rabbitmq/图片7.png" alt="图片7"></p>
+<p><img src="/2017/11/14/spring-cloud-stream-rabbitmq/图片7.png" alt="图片7"></p>
 <p>有一个test.yhl 队列这时调用发送者会发现两个消费者循环接受消息。</p>
 
       
@@ -544,7 +544,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/" title="spring-cloud-stream-rabbitmq">www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/</a>
+    <a href="http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/" title="spring-cloud-stream-rabbitmq">http://www.yanhailin.com/2017/11/14/spring-cloud-stream-rabbitmq/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
