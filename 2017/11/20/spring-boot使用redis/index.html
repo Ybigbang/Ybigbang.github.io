@@ -88,17 +88,17 @@
 <meta name="keywords" content="redis,spring boot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring boot使用redis">
-<meta property="og:url" content="http://yanhailin.com/2017/11/20/spring-boot使用redis/index.html">
+<meta property="og:url" content="www.yanhailin.com/2017/11/20/spring-boot使用redis/index.html">
 <meta property="og:site_name" content="颜如玉">
 <meta property="og:description" content="关于redis就不多介绍了。就介绍一下spring-data-redis的使用。 在用spring boot 开发项目的时候用到了redis。故对spring boot 使用redis数据库做一个简单的记录。 使用spring-data-redis来对redis数据库进行操作 pom中加入依赖 1234&amp;lt;dependency&amp;gt;          &amp;lt;groupId&amp;gt;org.s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yanhailin.com/2017/11/20/spring-boot使用redis/redis.PNG">
-<meta property="og:image" content="http://yanhailin.com/2017/11/20/spring-boot使用redis/redis1.PNG">
+<meta property="og:image" content="/20/spring-boot使用redis/redis.PNG">
+<meta property="og:image" content="/20/spring-boot使用redis/redis1.PNG">
 <meta property="og:updated_time" content="2017-11-20T12:24:03.484Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring boot使用redis">
 <meta name="twitter:description" content="关于redis就不多介绍了。就介绍一下spring-data-redis的使用。 在用spring boot 开发项目的时候用到了redis。故对spring boot 使用redis数据库做一个简单的记录。 使用spring-data-redis来对redis数据库进行操作 pom中加入依赖 1234&amp;lt;dependency&amp;gt;          &amp;lt;groupId&amp;gt;org.s">
-<meta name="twitter:image" content="http://yanhailin.com/2017/11/20/spring-boot使用redis/redis.PNG">
+<meta name="twitter:image" content="/20/spring-boot使用redis/redis.PNG">
 
 
 
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://yanhailin.com/2017/11/20/spring-boot使用redis/"/>
+  <link rel="canonical" href="www.yanhailin.com/2017/11/20/spring-boot使用redis/"/>
 
 
 
@@ -305,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanhailin.com/2017/11/20/spring-boot使用redis/">
+    <link itemprop="mainEntityOfPage" href="www.yanhailin.com/2017/11/20/spring-boot使用redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -464,11 +464,11 @@
 <p>接口实现类</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IRedisServiceImpl</span> <span class="keyword">implements</span> <span class="title">IRedisService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate&lt;String,Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(String key, Object value)</span> </span>&#123;</span><br><span class="line">        redisTemplate.opsForValue().set(key,value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(String key, Object value, <span class="keyword">long</span> timeout, TimeUnit unit)</span> </span>&#123;</span><br><span class="line">        redisTemplate.opsForValue().set(key,value,timeout,unit);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h4 id="保存字符串"><a href="#保存字符串" class="headerlink" title="保存字符串"></a>保存字符串</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	<span class="comment">// 保存字符串</span></span><br><span class="line">	iRedisService.set(<span class="string">"aaa"</span>, <span class="string">"111"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/11/20/spring-boot使用redis/redis.PNG" alt="redis"></p>
+<p><img src="/20/spring-boot使用redis/redis.PNG" alt="redis"></p>
 <h4 id="保存对象"><a href="#保存对象" class="headerlink" title="保存对象"></a>保存对象</h4><p>创建对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">	iRedisService.set(<span class="string">"bcv"</span>,<span class="keyword">new</span> User());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/11/20/spring-boot使用redis/redis1.PNG" alt="redis1"></p>
+<p><img src="/20/spring-boot使用redis/redis1.PNG" alt="redis1"></p>
 <p>成功。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>spring-data-redis 中封装了许多对redis的操作。上述只是简单的入门。</p>
 
@@ -491,7 +491,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yanhailin.com/2017/11/20/spring-boot使用redis/" title="spring boot使用redis">http://yanhailin.com/2017/11/20/spring-boot使用redis/</a>
+    <a href="www.yanhailin.com/2017/11/20/spring-boot使用redis/" title="spring boot使用redis">www.yanhailin.com/2017/11/20/spring-boot使用redis/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>

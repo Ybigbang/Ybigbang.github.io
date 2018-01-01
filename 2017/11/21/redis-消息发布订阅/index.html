@@ -88,16 +88,16 @@
 <meta name="keywords" content="redis,spring boot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis 消息发布订阅">
-<meta property="og:url" content="http://yanhailin.com/2017/11/21/redis-消息发布订阅/index.html">
+<meta property="og:url" content="www.yanhailin.com/2017/11/21/redis-消息发布订阅/index.html">
 <meta property="og:site_name" content="颜如玉">
 <meta property="og:description" content="了解redis的都知道。redis本身提供了消息发布与订阅的功能，我们怎么在java中使用这一功能呢？下面就来说一下如何在java中使用redis的消息发布与订阅功能。 spring data redis 官方介绍Sending/Publishing messages (发送/发布消息)要发布消息，与其他操作一样，可以使用低级RedisConnection或高级RedisTemplate。这两个实">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yanhailin.com/2017/11/21/redis-消息发布订阅/redismessage.PNG">
+<meta property="og:image" content="/21/redis-消息发布订阅/redismessage.PNG">
 <meta property="og:updated_time" content="2017-11-21T13:37:43.478Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis 消息发布订阅">
 <meta name="twitter:description" content="了解redis的都知道。redis本身提供了消息发布与订阅的功能，我们怎么在java中使用这一功能呢？下面就来说一下如何在java中使用redis的消息发布与订阅功能。 spring data redis 官方介绍Sending/Publishing messages (发送/发布消息)要发布消息，与其他操作一样，可以使用低级RedisConnection或高级RedisTemplate。这两个实">
-<meta name="twitter:image" content="http://yanhailin.com/2017/11/21/redis-消息发布订阅/redismessage.PNG">
+<meta name="twitter:image" content="/21/redis-消息发布订阅/redismessage.PNG">
 
 
 
@@ -127,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="http://yanhailin.com/2017/11/21/redis-消息发布订阅/"/>
+  <link rel="canonical" href="www.yanhailin.com/2017/11/21/redis-消息发布订阅/"/>
 
 
 
@@ -304,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanhailin.com/2017/11/21/redis-消息发布订阅/">
+    <link itemprop="mainEntityOfPage" href="www.yanhailin.com/2017/11/21/redis-消息发布订阅/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -470,7 +470,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(Receiver.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CountDownLatch latch;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Receiver</span><span class="params">(CountDownLatch latch)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.latch = latch;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiveMessage</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">        LOGGER.info(<span class="string">"Received &lt;"</span> + message + <span class="string">"&gt;"</span>);</span><br><span class="line">        latch.countDown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>测试</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.redis.redis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.StringRedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = RedisApplication.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisApplicationTests</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	StringRedisTemplate stringRedisTemplate;</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">		stringRedisTemplate.convertAndSend(<span class="string">"chat"</span>, <span class="string">"Hello from Redis!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/11/21/redis-消息发布订阅/redismessage.PNG" alt="redismessage"></p>
+<p><img src="/21/redis-消息发布订阅/redismessage.PNG" alt="redismessage"></p>
 <p>完成。</p>
 
       
@@ -492,7 +492,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yanhailin.com/2017/11/21/redis-消息发布订阅/" title="redis 消息发布订阅">http://yanhailin.com/2017/11/21/redis-消息发布订阅/</a>
+    <a href="www.yanhailin.com/2017/11/21/redis-消息发布订阅/" title="redis 消息发布订阅">www.yanhailin.com/2017/11/21/redis-消息发布订阅/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>

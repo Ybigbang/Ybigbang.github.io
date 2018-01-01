@@ -88,16 +88,16 @@
 <meta name="keywords" content="docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker构建rabbitmq集群">
-<meta property="og:url" content="http://yanhailin.com/2017/12/12/docker构建rabbitmq集群/index.html">
+<meta property="og:url" content="www.yanhailin.com/2017/12/12/docker构建rabbitmq集群/index.html">
 <meta property="og:site_name" content="颜如玉">
 <meta property="og:description" content="部署步骤基本概念  内存节点 1只保存状态到内存，例外情况是：持久的 queue 的内容将被保存到磁盘。  磁盘节点 1保存状态到内存和磁盘。  内存节点由于不进行磁盘读写，它的性能比磁盘节点高。  集群中可以存在多个磁盘节点，磁盘节点越多整个集群可用性越好，但是集群整体性能不会线性增加，需要权衡考虑。  如果集群中只有内存节点，那么不能停止它们，否则所有状态和消息都会丢失。   构建Rabbit">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yanhailin.com/2017/12/12/docker构建rabbitmq集群/rabbitmq集群.PNG">
+<meta property="og:image" content="/12/docker构建rabbitmq集群/rabbitmq集群.PNG">
 <meta property="og:updated_time" content="2018-01-01T13:17:27.493Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker构建rabbitmq集群">
 <meta name="twitter:description" content="部署步骤基本概念  内存节点 1只保存状态到内存，例外情况是：持久的 queue 的内容将被保存到磁盘。  磁盘节点 1保存状态到内存和磁盘。  内存节点由于不进行磁盘读写，它的性能比磁盘节点高。  集群中可以存在多个磁盘节点，磁盘节点越多整个集群可用性越好，但是集群整体性能不会线性增加，需要权衡考虑。  如果集群中只有内存节点，那么不能停止它们，否则所有状态和消息都会丢失。   构建Rabbit">
-<meta name="twitter:image" content="http://yanhailin.com/2017/12/12/docker构建rabbitmq集群/rabbitmq集群.PNG">
+<meta name="twitter:image" content="/12/docker构建rabbitmq集群/rabbitmq集群.PNG">
 
 
 
@@ -127,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="http://yanhailin.com/2017/12/12/docker构建rabbitmq集群/"/>
+  <link rel="canonical" href="www.yanhailin.com/2017/12/12/docker构建rabbitmq集群/"/>
 
 
 
@@ -304,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanhailin.com/2017/12/12/docker构建rabbitmq集群/">
+    <link itemprop="mainEntityOfPage" href="www.yanhailin.com/2017/12/12/docker构建rabbitmq集群/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -454,7 +454,7 @@
 <p>停止rabbitmq3 连接rabbit1启动</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./rabbitmqctl stop_app</span><br><span class="line">./rabbitmqctl join_cluster rabbit@rabbit1</span><br><span class="line">./rabbitmqctl start_app</span><br></pre></td></tr></table></figure>
 <p>结果：</p>
-<p><img src="/2017/12/12/docker构建rabbitmq集群/rabbitmq集群.PNG" alt="rabbitmq集群"></p>
+<p><img src="/12/docker构建rabbitmq集群/rabbitmq集群.PNG" alt="rabbitmq集群"></p>
 
       
     </div>
@@ -475,7 +475,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yanhailin.com/2017/12/12/docker构建rabbitmq集群/" title="docker构建rabbitmq集群">http://yanhailin.com/2017/12/12/docker构建rabbitmq集群/</a>
+    <a href="www.yanhailin.com/2017/12/12/docker构建rabbitmq集群/" title="docker构建rabbitmq集群">www.yanhailin.com/2017/12/12/docker构建rabbitmq集群/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>

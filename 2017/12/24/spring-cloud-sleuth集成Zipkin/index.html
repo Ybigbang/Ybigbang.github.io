@@ -88,22 +88,22 @@
 <meta name="keywords" content="spring cloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring-cloud-sleuth集成Zipkin">
-<meta property="og:url" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/index.html">
+<meta property="og:url" content="www.yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/index.html">
 <meta property="og:site_name" content="颜如玉">
 <meta property="og:description" content="spring cloud sleuth 功能概述微服务架构是一个分布式架构，它按业务划分服务单元，一个分布式系统往往有很多个服务单元。由于服务单元数量众多，业务的复杂性，如果出现了错误和异常，很难去定位。主要体现在，一个请求可能需要调用很多个服务，而内部服务的调用复杂性，决定了问题难以定位。所以微服务架构中，必须实现分布式链路追踪，去跟进一个请求到底有哪些服务参与，参与的顺序又是怎样的，从而达到每">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/trace-id.png">
-<meta property="og:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/parents.png">
-<meta property="og:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-traces.png">
-<meta property="og:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-ui.png">
-<meta property="og:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-error-traces.png">
-<meta property="og:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-error-trace-screenshot.png">
-<meta property="og:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/dependencies.png">
+<meta property="og:image" content="/24/spring-cloud-sleuth集成Zipkin/trace-id.png">
+<meta property="og:image" content="/24/spring-cloud-sleuth集成Zipkin/parents.png">
+<meta property="og:image" content="/24/spring-cloud-sleuth集成Zipkin/zipkin-traces.png">
+<meta property="og:image" content="/24/spring-cloud-sleuth集成Zipkin/zipkin-ui.png">
+<meta property="og:image" content="/24/spring-cloud-sleuth集成Zipkin/zipkin-error-traces.png">
+<meta property="og:image" content="/24/spring-cloud-sleuth集成Zipkin/zipkin-error-trace-screenshot.png">
+<meta property="og:image" content="/24/spring-cloud-sleuth集成Zipkin/dependencies.png">
 <meta property="og:updated_time" content="2018-01-01T13:17:27.493Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring-cloud-sleuth集成Zipkin">
 <meta name="twitter:description" content="spring cloud sleuth 功能概述微服务架构是一个分布式架构，它按业务划分服务单元，一个分布式系统往往有很多个服务单元。由于服务单元数量众多，业务的复杂性，如果出现了错误和异常，很难去定位。主要体现在，一个请求可能需要调用很多个服务，而内部服务的调用复杂性，决定了问题难以定位。所以微服务架构中，必须实现分布式链路追踪，去跟进一个请求到底有哪些服务参与，参与的顺序又是怎样的，从而达到每">
-<meta name="twitter:image" content="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/trace-id.png">
+<meta name="twitter:image" content="/24/spring-cloud-sleuth集成Zipkin/trace-id.png">
 
 
 
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/"/>
+  <link rel="canonical" href="www.yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/"/>
 
 
 
@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/">
+    <link itemprop="mainEntityOfPage" href="www.yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="严海林">
@@ -438,16 +438,16 @@
 </li>
 </ul>
 <p><strong>Span</strong>和<strong>Trace</strong>在系统中与Zipkin注释一起显示的可视化：</p>
-<p><img src="/2017/12/24/spring-cloud-sleuth集成Zipkin/trace-id.png" alt="跟踪信息传播"></p>
+<p><img src="/24/spring-cloud-sleuth集成Zipkin/trace-id.png" alt="跟踪信息传播"></p>
 <p>每个音符的颜色表示一个跨度（7个spans  - 从<strong>A</strong>到<strong>G</strong>）。如果你在注释中有这样的信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Trace Id = X</span><br><span class="line">Span Id = D</span><br><span class="line">Client Sent</span><br></pre></td></tr></table></figure>
 <p>这意味着，目前的跨度<strong>Trance-ID</strong>设置为<strong>X</strong>，<strong>Span-ID</strong>设置为<strong>d</strong>。它也发出了 <strong>Client Sent</strong>事件。</p>
 <p>这就是spans父/子关系的可视化效果：</p>
-<p><img src="/2017/12/24/spring-cloud-sleuth集成Zipkin/parents.png" alt="parents"></p>
+<p><img src="/24/spring-cloud-sleuth集成Zipkin/parents.png" alt="parents"></p>
 <h4 id="用Zipkin分布式跟踪"><a href="#用Zipkin分布式跟踪" class="headerlink" title="用Zipkin分布式跟踪"></a>用Zipkin分布式跟踪</h4><p>总共有<strong>7个spans</strong>。如果你去Zipkin的traces ，你会看到这个数字在第二个trace：</p>
-<p><a href="spring-cloud-sleuth集成Zipkin/zipkin-traces.png"><img src="/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-traces.png" alt="Traces"></a></p>
+<p><a href="spring-cloud-sleuth集成Zipkin/zipkin-traces.png"><img src="/24/spring-cloud-sleuth集成Zipkin/zipkin-traces.png" alt="Traces"></a></p>
 <p>但是，如果你选择一个特定的trace ，那么你会看到<strong>4个spans</strong>：</p>
-<p><img src="/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-ui.png" alt="Traces Info propagation"></p>
+<p><img src="/24/spring-cloud-sleuth集成Zipkin/zipkin-ui.png" alt="Traces Info propagation"></p>
 <blockquote>
 <p>当选择一个特定的spans，你会看到合并spans。这意味着，如果有2个spans发送到Zipkin 有Server Received 和 Server Sent / Client Received 以及 Client Sent annotations ，那么他们将呈现为一个spans。</p>
 </blockquote>
@@ -462,12 +462,12 @@
 <p>从逻辑上看，我们可以看到<strong>Total Spans：4</strong>的信息，因为我们有<strong>1个</strong>与传入请求相关的跨度<code>service1</code>和<strong>3个</strong>与RPC调用相关的跨度。</p>
 <h4 id="可视化错误"><a href="#可视化错误" class="headerlink" title="可视化错误"></a>可视化错误</h4><p>Zipkin允许你可视化你的踪迹中的错误。当抛出异常并且没有被捕获时，我们在Zipkin可以正确着色的跨度上设置适当的标签。您可以在轨迹列表中看到一条红色的span。那是因为抛出了一个异常。</p>
 <p>如果你点击那个trace，你会看到一个类似的图片</p>
-<p><img src="/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-error-traces.png" alt="错误跟踪"></p>
+<p><img src="/24/spring-cloud-sleuth集成Zipkin/zipkin-error-traces.png" alt="错误跟踪"></p>
 <p>然后，如果您点击其中一个跨度，您将看到以下内容</p>
-<p><img src="/2017/12/24/spring-cloud-sleuth集成Zipkin/zipkin-error-trace-screenshot.png" alt="错误跟踪信息传播"></p>
+<p><img src="/24/spring-cloud-sleuth集成Zipkin/zipkin-error-trace-screenshot.png" alt="错误跟踪信息传播"></p>
 <p>正如你所看到的，你可以很容易地看到一个错误的原因和整个堆栈跟踪相关的。</p>
 <h4 id="依赖分析"><a href="#依赖分析" class="headerlink" title="依赖分析"></a>依赖分析</h4><p>Zipkin中的依赖关系图如下所示：</p>
-<p><img src="/2017/12/24/spring-cloud-sleuth集成Zipkin/dependencies.png" alt="依赖"></p>
+<p><img src="/24/spring-cloud-sleuth集成Zipkin/dependencies.png" alt="依赖"></p>
 
       
     </div>
@@ -488,7 +488,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/" title="spring-cloud-sleuth集成Zipkin">http://yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/</a>
+    <a href="www.yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/" title="spring-cloud-sleuth集成Zipkin">www.yanhailin.com/2017/12/24/spring-cloud-sleuth集成Zipkin/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
